@@ -40,6 +40,7 @@ node *loadmap(char file[]);
 node *peek(stack_element *stack);
 node *pop(stack_element **stackaddr);
 void push(node * pnode, stack_element **stackaddr);
+void getdirname(int dir, char s[]);
 
 /* Funciton Implementations */
 
@@ -187,14 +188,15 @@ node * findnode(char s[], node *junc)
 stack_element * getdirs(char start[], char end[], node *junc)
 {
     int i, j;
+    char s[MAXSTR];
     stack_element * dirstack = NULL;
     node * endnode = NULL;
     node * curnode = NULL;
+    node * tempnode = NULL; /* For adding name to direction */
 
     /* Starting at the end node */
     if ((curnode = endnode = findnode(end, junc)) ==  NULL)
         printf("Error: End node not found!\n");
-    push(endnode, &dirstack);
     if (!strcmp(start, curnode->name))
         return dirstack;
 
@@ -207,6 +209,7 @@ stack_element * getdirs(char start[], char end[], node *junc)
     }
     
     /* Checking last node in branch */
+    push(curnode, &dirstack);
     if (!strcmp(start, curnode->name))
         return dirstack;
 
@@ -232,20 +235,45 @@ stack_element * getdirs(char start[], char end[], node *junc)
     for (i = 0; i < NUMDEG; ++i) {
         if ((curnode = junc->dir[i]) == NULL)    /* direction points to NULL */
             continue;
-
-        while (curnode->dir[FWD] != NULL) {
+        getdirname(i, s);
+        printf("%s",s);
+        tempnode = malloc(sizeof(node));
+        strcpy(tempnode->name, s);
+        push(tempnode, &dirstack);
+        for (j = 0; curnode->dir[FWD] != NULL; ++j) {
             push(curnode, &dirstack);
-            if (!strcmp(start, curnode->name))
+            if (!strcmp(start, curnode->name)){
                 return dirstack;
+                free(tempnode);
+            }
             curnode = curnode->dir[FWD];
         }
         push(curnode, &dirstack);
-        if (!strcmp(start, curnode->name))
+        if (!strcmp(start, curnode->name)) {
             return dirstack;
-        while (pop(&dirstack) != NULL)
-            ;
+            free(tempnode);
+        }
+        for (++j; j >= 0; --j)
+            pop(&dirstack);
         curnode = junc;
+        free(tempnode);
     }
+}
+
+/*
+ * Get direction name - Takes int argument and writes corresponding direction
+ * into s
+ */
+void getdirname(int dir, char s[])
+{
+    if (dir = 0)
+        strcpy(s, "I-5 North");
+    else if (dir = 1)
+        strcpy(s, "205 East");
+    else if (dir = 2)
+        strcpy(s, "I-5 South");
+    else if (dir = 3)
+        strcpy(s, "205 West");
 }
 
 
