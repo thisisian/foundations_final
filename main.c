@@ -14,8 +14,6 @@
 #include<stdlib.h>
 #include<string.h>
 
-#define TRUE 1
-#define FALSE 0
 #define NUMDEG 4            /* Degree of center node */
 #define MAXSTR 100
 #define BACK 0
@@ -50,6 +48,7 @@ node * peek(stack_element *stack)
     node *pnode = NULL;
     if (stack != NULL)
         pnode = stack->node;
+
     return pnode;
 }
 
@@ -83,6 +82,20 @@ void push(node * pnode, stack_element **stackaddr)
    if (stack != NULL)
        p->prev = stack;
    *stackaddr = p;
+}
+
+/*
+ * Get entry - load next entry from map file into s. 
+ * Return 1 if EOF or newline occurs after entry is scanned.
+ */
+int getentry(FILE *mfile, char s[])
+{
+    int i;
+    char c;
+
+    for (i = 0; (c = fgetc(mfile)) != EOF && c != '\n' && c != ','; ++i)
+        s[i] = c;
+    s[i] = '\0';
 }
 
 /*
@@ -181,6 +194,21 @@ node * findnode(char s[], node *junc)
     return NULL;
 }
 
+/*
+ * Get direction name - Takes int argument and writes corresponding direction
+ * into s
+ */
+void getdirname(int dir, char s[])
+{
+    if (dir == 0)
+        strcpy(s, "North");
+    else if (dir == 1)
+        strcpy(s, "East");
+    else if (dir == 2)
+        strcpy(s, "South");
+    else if (dir == 3)
+        strcpy(s, "West");
+}
 
 /* 
  * Get directions into a stack
@@ -232,14 +260,10 @@ stack_element * getdirs(char start[], char end[], node *junc)
         return dirstack;
 
     /* Do brute force scan */
+    tempnode = createnode(); /* create a node to hold name direction */
     for (i = 0; i < NUMDEG; ++i) {
         if ((curnode = junc->dir[i]) == NULL)    /* direction points to NULL */
             continue;
-        getdirname(i, s);
-        printf("%s",s);
-        tempnode = malloc(sizeof(node));
-        strcpy(tempnode->name, s);
-        push(tempnode, &dirstack);
         for (j = 0; curnode->dir[FWD] != NULL; ++j) {
             push(curnode, &dirstack);
             if (!strcmp(start, curnode->name)){
@@ -251,44 +275,13 @@ stack_element * getdirs(char start[], char end[], node *junc)
         push(curnode, &dirstack);
         if (!strcmp(start, curnode->name)) {
             return dirstack;
-            free(tempnode);
         }
-        for (++j; j >= 0; --j)
+        for (j; j >= 0; --j)
             pop(&dirstack);
         curnode = junc;
-        free(tempnode);
     }
-}
-
-/*
- * Get direction name - Takes int argument and writes corresponding direction
- * into s
- */
-void getdirname(int dir, char s[])
-{
-    if (dir = 0)
-        strcpy(s, "I-5 North");
-    else if (dir = 1)
-        strcpy(s, "205 East");
-    else if (dir = 2)
-        strcpy(s, "I-5 South");
-    else if (dir = 3)
-        strcpy(s, "205 West");
-}
-
-
-/*
- * Get entry - load next entry from map file into s. 
- * Return 1 if EOF or newline occurs after entry is scanned.
- */
-int getentry(FILE *mfile, char s[])
-{
-    int i;
-    char c;
-
-    for (i = 0; (c = fgetc(mfile)) != EOF && c != '\n' && c != ','; ++i)
-        s[i] = c;
-    s[i] = '\0';
+    printf("Start node not found!");
+    return NULL;
 }
 
 int main(void)
@@ -315,9 +308,9 @@ int main(void)
         printf("\n");
         cur = junc;
     }
-    printf("\n");
+    printf("------------------\n\n");
 
-    /* Find the directions */
+    /* Find the directions, dump stack */
     for (;;) {
         printf("Start:\n");
         scanf("%s", start);
@@ -325,7 +318,7 @@ int main(void)
         scanf("%s", end);
         pathstack = getdirs(start, end, junc);
         printf("-----Directions-----\n%s -> %s\n", start, end);
-        while ((node = pop(&pathstack)) != NULL)
+        while (pop(&pathstack) != NULL)
             ;
     }
 }
