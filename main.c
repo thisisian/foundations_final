@@ -195,7 +195,8 @@ node * findnode(char s[], node *junc, int *dir)
 }
 
 /*
- * Get directions into a stack
+ * Find path between two nodes. An array of nodes
+ * along path or NULL if there's an error.
  */
 stack_element *getdirs(char start[], char end[], node *junc)
 {
@@ -207,8 +208,10 @@ stack_element *getdirs(char start[], char end[], node *junc)
     int dir;                            /* Holds direction of end node */
 
     /* Starting at the end node */
-    if ((curnode = endnode = findnode(end, junc, &dir)) ==  NULL)
+    if ((curnode = endnode = findnode(end, junc, &dir)) ==  NULL) {
         printf("Error: End node not found!\n");
+        return NULL;
+    }
     if (!strcmp(start, curnode->name))
         return dirstack;
 
@@ -264,7 +267,7 @@ stack_element *getdirs(char start[], char end[], node *junc)
             pop(&dirstack);
         curnode = junc;
     }
-    printf("Start node not found!");
+    printf("Start node not found!\n");
     return NULL;
 }
 
