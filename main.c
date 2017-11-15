@@ -73,7 +73,7 @@ node * pop(stack_element **stackaddr)
 void push(node * pnode, stack_element **stackaddr)
 {
    stack_element *stack = *stackaddr;
-   stack_element * p = (stack_element *) malloc(sizeof(stack_element));
+   stack_element * p = malloc(sizeof(stack_element));
    p->prev = NULL;
    p->node = pnode;
 
@@ -159,7 +159,7 @@ node * loadmap(char file[]) {
 node * createnode()
 {
     int i;
-    node *p = (node *) malloc(sizeof(node));
+    node *p = malloc(sizeof(node));
     p->name[0] = '\0';
     for (i = 0; i < NUMDEG; ++i)
         p->dir[i] = NULL;
