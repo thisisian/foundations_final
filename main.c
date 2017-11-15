@@ -1,4 +1,4 @@
-/* 
+/*
  * New Beginnings Foundations Final
  *
  * Authors:
@@ -7,7 +7,6 @@
  * Matt Krepp
  * Ian Winter
  *
- * [DESCRIPTION]
  */
 
 #include<stdio.h>
@@ -15,9 +14,9 @@
 #include<string.h>
 
 #define NUMDEG 4            /* Degree of center node */
-#define MAXSTR 100
-#define BACK 0
-#define FWD 1
+#define MAXSTR 100          /* Max length of string array */
+#define BACK 0              /* Direction towards junction */
+#define FWD 1               /* Direction away from function */
 
 /* Typedefs */
 
@@ -43,18 +42,17 @@ void getdirname(int dir, char s[]);
 /* Funciton Implementations */
 
 /* Peek - returns top element in stack or NULL if stack is empty. */
-node * peek(stack_element *stack)
+node *peek(stack_element *stack)
 {
     node *pnode = NULL;
     if (stack != NULL)
         pnode = stack->node;
-
     return pnode;
 }
 
 /* Pop - removes top element from stack and returns node or NULL if empty. */
-node * pop(stack_element **stackaddr)
-{ 
+node *pop(stack_element **stackaddr)
+{
     stack_element *p = NULL;
     node *pnode = NULL;
     stack_element *stack = *stackaddr;
@@ -85,7 +83,7 @@ void push(node * pnode, stack_element **stackaddr)
 }
 
 /*
- * Get entry - load next entry from map file into s. 
+ * Get entry - load next entry from map file into s.
  * Return 1 if EOF or newline occurs after entry is scanned.
  */
 int getentry(FILE *mfile, char s[])
@@ -101,10 +99,10 @@ int getentry(FILE *mfile, char s[])
 /*
  * Load map - loads data from file, returns pointer to junction.
  *
- * Map file contains city names separated by commas. Branches are separated
+ * Map file contains city names separated by commas. Branches are terminated
  * by END
  */
-node * loadmap(char file[]) {
+node *loadmap(char file[]) {
     int i;
     node *junc = NULL;
     node *cur = NULL;
@@ -135,7 +133,7 @@ node * loadmap(char file[]) {
         new->dir[BACK] = junc;
         cur = new;
 
-        /* Filling in branch i */
+        /* Center nodes */
         getentry(mfile, s);
         while (strcmp(s, "END")){
             new = createnode();
@@ -167,10 +165,11 @@ node * createnode()
 }
 
 /*
- * Find node - scans map from junction and returns pointer to node or NULL
- * if node isn't found
+ * Find node - Brute force search for node pointer with name s[]. If found,
+ * direction is stored in dir and a pointer to the node is returned. Otherwise,
+ * function dir is invalid and function returns a NULL.
  */
-node * findnode(char s[], node *junc)
+node * findnode(char s[], node *junc, int *dir)
 {
     int i, j;
     node *cur = NULL;
@@ -178,6 +177,7 @@ node * findnode(char s[], node *junc)
     for (i = 0; i < NUMDEG; ++i) {
         if ((cur = junc->dir[i]) == NULL)    /* direction points to NULL */
             continue;
+        *dir = i;
         while (cur->dir[FWD] != NULL) {
             if (!strcmp(cur->name, s)) {
                 printf("Found %s\n", cur->name);
@@ -195,35 +195,19 @@ node * findnode(char s[], node *junc)
 }
 
 /*
- * Get direction name - Takes int argument and writes corresponding direction
- * into s
- */
-void getdirname(int dir, char s[])
-{
-    if (dir == 0)
-        strcpy(s, "North");
-    else if (dir == 1)
-        strcpy(s, "East");
-    else if (dir == 2)
-        strcpy(s, "South");
-    else if (dir == 3)
-        strcpy(s, "West");
-}
-
-/* 
  * Get directions into a stack
  */
-stack_element * getdirs(char start[], char end[], node *junc)
+stack_element *getdirs(char start[], char end[], node *junc)
 {
     int i, j;
     char s[MAXSTR];
-    stack_element * dirstack = NULL;
-    node * endnode = NULL;
-    node * curnode = NULL;
-    node * tempnode = NULL; /* For adding name to direction */
+    node *endnode = NULL;
+    node *curnode = NULL;
+    stack_element *dirstack = NULL;
+    int dir;                            /* Holds direction of end node */
 
     /* Starting at the end node */
-    if ((curnode = endnode = findnode(end, junc)) ==  NULL)
+    if ((curnode = endnode = findnode(end, junc, &dir)) ==  NULL)
         printf("Error: End node not found!\n");
     if (!strcmp(start, curnode->name))
         return dirstack;
@@ -235,7 +219,7 @@ stack_element * getdirs(char start[], char end[], node *junc)
             return dirstack;
         curnode = curnode->dir[FWD];
     }
-    
+
     /* Checking last node in branch */
     push(curnode, &dirstack);
     if (!strcmp(start, curnode->name))
@@ -259,16 +243,16 @@ stack_element * getdirs(char start[], char end[], node *junc)
     if (!strcmp(start, curnode->name))
         return dirstack;
 
-    /* Do brute force scan */
-    tempnode = createnode(); /* create a node to hold name direction */
+    /* Do brute force search */
     for (i = 0; i < NUMDEG; ++i) {
+        if (i == dir)                 /* Avoid previously searched direction */
+            continue;
         if ((curnode = junc->dir[i]) == NULL)    /* direction points to NULL */
             continue;
         for (j = 0; curnode->dir[FWD] != NULL; ++j) {
             push(curnode, &dirstack);
             if (!strcmp(start, curnode->name)){
                 return dirstack;
-                free(tempnode);
             }
             curnode = curnode->dir[FWD];
         }
@@ -294,7 +278,7 @@ int main(void)
     node *cur = NULL;
     node *node = NULL;
     int i, j;
-    
+
     /* Testing Traversal */
     printf("--Traversal Test--\n");
     for (i = 0; i < NUMDEG; ++i) {
