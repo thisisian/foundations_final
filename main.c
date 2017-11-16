@@ -46,17 +46,28 @@ int main(void)
     }
     printf("------------------\n\n");
     #endif
+
     /* Find the directions, dump stack */
-    for (;;) {
-        printf("Start:\n");
+    char exit[5];
+    while (strcmp(exit, "exit") != 0)
+    {
+        printf("Enter starting location:\n");
         scanf("%s", start);
 	inputformat(start);
-        printf("End:\n");
+        printf("Enter ending location:\n");
         scanf("%s", end);
 	inputformat(end);
         pathstack = getdirs(start, end, junc);
-        printf("-----Directions-----\n%s -> %s\n", start, end);
+        printf("-----Directions-----\n%s to %s:\n", start, end);
 	popall(pathstack, end);
+	printf("Type \"exit\" to quit, or any key to continue:\n");
+	scanf("%s", exit);
+	int i = 0;
+	while (exit[i])
+	{
+		exit[i] = (tolower(exit[i]));
+		++i;
+	}
     }
 
 }
