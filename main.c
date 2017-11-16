@@ -195,7 +195,23 @@ node * findnode(char s[], node *junc, int *dir)
 }
 
 /*
- * Find path between two nodes. An array of nodes
+ * Get direction name. Takes an input variable and saves name into s.
+ */
+void getdirname(int dir, char s[]) {
+    if (dir == 0)
+        strcpy(s, "North");
+    else if (dir == 1)
+        strcpy(s, "East");
+    else if (dir == 2)
+        strcpy(s, "South");
+    else if (dir == 3)
+        strcpy(s, "West");
+    else 
+        printf("getdirname: invalid direction");
+}
+
+/*
+ * Find path between two nodes returns an array of nodes
  * along path or NULL if there's an error.
  */
 stack_element *getdirs(char start[], char end[], node *junc)
@@ -206,6 +222,7 @@ stack_element *getdirs(char start[], char end[], node *junc)
     node *curnode = NULL;
     stack_element *dirstack = NULL;
     int dir;                            /* Holds direction of end node */
+    node *dirname = NULL;               /* Holds name of junciton node */
 
     /* Starting at the end node */
     if ((curnode = endnode = findnode(end, junc, &dir)) ==  NULL) {
@@ -245,6 +262,12 @@ stack_element *getdirs(char start[], char end[], node *junc)
     push(curnode, &dirstack);
     if (!strcmp(start, curnode->name))
         return dirstack;
+
+    /* Getting a name for junction node */
+    getdirname(dir, s);
+    dirname = createnode();
+    strcpy(dirname->name, s);
+    push(dirname, &dirstack);
 
     /* Do brute force search */
     for (i = 0; i < NUMDEG; ++i) {
