@@ -210,16 +210,19 @@ void getdirname(int dir, char s[]) {
         printf("getdirname: invalid direction");
 }
 
+
 /* 
  * pop all elements from stack and print
  */
-void popall(stack_element * stack) 
+void popall(stack_element * stack, char end[]) 
 {
-        while (stack->node != NULL){
+        while (strcmp(stack->node->name, end) != 0){
                 node a = * pop(&stack);
                 printf("%s\n", a.name);
                 
         }
+        node a = * pop(&stack);
+        printf("%s\n", a.name);
 }
 
 /*
