@@ -82,4 +82,5 @@ int main(void)
 		exit[i] = (tolower(exit[i]));
 		++i;
 	}
+     }
 }
