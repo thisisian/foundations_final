@@ -8,7 +8,7 @@
 #define BACK 0              /* Direction towards junction */
 #define FWD 1               /* Direction away from function */
 
-#define DEBUG 	 	    /* Add value to enable debugging mode, used with ifdef statements */
+#define DEBUG 1 	    /* Debugging mode: 1 to enable, 0 to disable */	
 
 /* Typedefs */
 typedef struct node {

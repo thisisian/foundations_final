@@ -31,6 +31,7 @@ int main(void)
     int i, j;
 
     /* Testing Traversal */
+    #if DEBUG
     printf("--Traversal Test--\n");
     for (i = 0; i < NUMDEG; ++i) {
         if ((cur = junc->dir[i]) == NULL)    /* direction points to NULL */
@@ -44,7 +45,7 @@ int main(void)
         cur = junc;
     }
     printf("------------------\n\n");
-
+    #endif
     /* Find the directions, dump stack */
     for (;;) {
         printf("Start:\n");
