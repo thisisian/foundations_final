@@ -38,6 +38,7 @@ node *peek(stack_element *stack);
 node *pop(stack_element **stackaddr);
 void push(node * pnode, stack_element **stackaddr);
 void getdirname(int dir, char s[]);
+void popall(stack_element * stack, char end[]) ;
 
 /* Funciton Implementations */
 
