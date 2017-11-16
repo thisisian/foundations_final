@@ -339,8 +339,8 @@ int main(void)
         scanf("%s", end);
         pathstack = getdirs(start, end, junc);
         printf("-----Directions-----\n%s -> %s\n", start, end);
-        
+        popall(pathstack);
     }
     
-    popall(pathstack);
+    
 }
