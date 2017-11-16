@@ -213,10 +213,10 @@ void getdirname(int dir, char s[]) {
 /* 
  * pop all elements from stack and print
  */
-void popall(stack_element ** stack) 
+void popall(stack_element * stack) 
 {
         while (stack->node != NULL){
-                node a = pop(stack);
+                node * a = pop(stack);
                 printf("%s", a->name);
         }
 }
