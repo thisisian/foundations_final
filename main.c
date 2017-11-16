@@ -7,8 +7,14 @@
  * Matt Krepp
  * Ian Winter
  *
+ * This program is a simple map that represents two highways, 
+ * i5 and highway 26. i5 runs north/south, and 26 runs east west.
+ * The highways intersect at a junction in the middle of the map.
+ * Cities along the route are loaded into the map via a text file.
+ * The program accepts a starting city and ending city as input, 
+ * and directs the user to the best route between the two cities.
  *
- *	FIXME add description 
+ * files: main.c, functions.h, nodelib.c, stacklib.c, data.c
  **************************************************************************/
 
 #include "functions.h"						//header file, store in local directory
