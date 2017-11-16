@@ -8,7 +8,7 @@
 #define BACK 0              /* Direction towards junction */
 #define FWD 1               /* Direction away from function */
 
-#define DEBUG	 	    /* Add value to enable debugging mode, used with ifdef statements */
+#define DEBUG 	 	    /* Add value to enable debugging mode, used with ifdef statements */
 
 /* Typedefs */
 typedef struct node {
@@ -29,3 +29,5 @@ node *peek(stack_element *stack);
 node *pop(stack_element **stackaddr);
 void push(node * pnode, stack_element **stackaddr);
 void getdirname(int dir, char s[]);
+stack_element *getdirs(char start[], char end[], node *junc);
+node * findnode(char s[], node *junc, int *dir);

@@ -17,7 +17,9 @@
  *
  * files: main.c, functions.h, nodelib.c, stacklib.c, data
  **************************************************************************/
+#include <stdlib.h>
 #include "functions.h"						//header file, store in local directory
+#define DEBUG 	 	    /* Add value to enable debugging mode, used with ifdef statements */
 
 
 /*
@@ -40,14 +42,17 @@ int getentry(FILE *mfile, char s[])
   * Map file contains city names separated by commas. Branches are terminated
   * by END
   */
- node *loadmap(char file[]) {
+ node *loadmap(char file[]) {				
      int i;
      node *junc = NULL;
      node *cur = NULL;
      node *new = NULL;
      char s[MAXSTR];						//FIXME s --> city?
- 
+     
+     #ifdef DEBUG 
      printf("---Loading Map---\n");
+     #endif
+
      FILE *mfile = fopen(file,"r");
  
      /* Creating junction node */
@@ -60,7 +65,7 @@ int getentry(FILE *mfile, char s[])
  
          /* Junction to first node on branch i */
          getentry(mfile, s);
-         if (!strcmp(s, "END")) {           /* Branch is empty */
+         if (!strcmp(s, "END")) {           	
              printf(" - END\n");
              continue;
          }
@@ -87,7 +92,7 @@ int getentry(FILE *mfile, char s[])
      }
      printf("-----------------\n\n");
      return junc;
-     fclose(file);
+//     fclose(file);			//FIXME
  }
  
  /* Create node - create and initialize node, return pointer to node */

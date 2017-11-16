@@ -14,7 +14,7 @@
  * The program accepts a starting city and ending city as input, 
  * and directs the user to the best route between the two cities.
  *
- * files: main.c, functions.h, nodelib.c, stacklib.c, data.c
+ * files: main.c, functions.h, nodelib.c, stacklib.c, data
  **************************************************************************/
 
 #include "functions.h"						//header file, store in local directory
@@ -22,11 +22,11 @@
 int main(void) 
 {
     stack_element *pathstack = NULL;
-    node *junc = loadmap("./data");
-    char start[MAXSTR];
+    node *junc = loadmap("./data");				//load cities into map from data file
+    char start[MAXSTR];						//MAXSTR is maximum string length, defined in functions.h
     char end[MAXSTR];
 
-    node *cur = NULL;
+    node *cur = NULL;						//initialize list pointers
     node *node = NULL;
     int i, j;
 

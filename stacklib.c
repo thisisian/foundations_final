@@ -15,7 +15,7 @@
  * The program accepts a starting city and ending city as input, 
  * and directs the user to the best route between the two cities.
  *
- * files: main.c, functions.h, nodelib.c, stacklib.c, data.c
+ * files: main.c, functions.h, nodelib.c, stacklib.c, data
  **************************************************************************/
 #include "functions.h"						//header file, store in local directory
 
