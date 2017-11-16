@@ -8,13 +8,13 @@
 #define BACK 0              /* Direction towards junction */
 #define FWD 1               /* Direction away from function */
 
-
+#define DEBUG	 	    /* Add value to enable debugging mode, used with ifdef statements */
 
 /* Typedefs */
 typedef struct node {
     char name[MAXSTR];
     struct node *dir[NUMDEG];
-}   node;
+} node;
 
 typedef struct stack_element {
     node * node;
