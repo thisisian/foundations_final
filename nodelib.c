@@ -18,6 +18,7 @@
  * files: main.c, functions.h, nodelib.c, stacklib.c, data
  **************************************************************************/
 #include <stdlib.h>
+#include <ctype.h>
 #include "functions.h"						//header file, store in local directory
 #define DEBUG 	 	    /* Add value to enable debugging mode, used with ifdef statements */
 
@@ -151,4 +152,21 @@ int getentry(FILE *mfile, char s[])
       else 
           printf("getdirname: invalid direction");
   }
+
+/*Convert input string to all lower, then to first letter of word upper*/
+
+   void inputformat(char s[]){			//converts whole string to lower
+      for(int i = 0; i<MAXSTR; i++){
+         s[i] = tolower(s[i]);
+      }
+
+      s[0] = toupper(s[0]);			//converts letter 0 to upper
+
+      for(int i = 1; i<MAXSTR; i++){		//converts first letter of
+         if(isalpha(s[i]) && s[i-1] == ' '){	//additional words to upper
+            s[i] = toupper(s[i]);
+         }
+      }
+
+   }
 

@@ -49,12 +49,12 @@ int main(void)
     for (;;) {
         printf("Start:\n");
         scanf("%s", start);
+	inputformat(start);
         printf("End:\n");
         scanf("%s", end);
+	inputformat(end);
         pathstack = getdirs(start, end, junc);
         printf("-----Directions-----\n%s -> %s\n", start, end);
-        while (pop(&pathstack) != NULL)
-            ;
     }
 
 }
