@@ -15,7 +15,7 @@
  * The program accepts a starting city and ending city as input, 
  * and directs the user to the best route between the two cities.
  *
- * files: main.c, functions.h, nodelib.c, stacklib.c, data.c
+ * files: main.c, functions.h, nodelib.c, stacklib.c, data
  **************************************************************************/
 #include "functions.h"						//header file, store in local directory
 
@@ -45,7 +45,7 @@ int getentry(FILE *mfile, char s[])
      node *junc = NULL;
      node *cur = NULL;
      node *new = NULL;
-     char s[MAXSTR];
+     char s[MAXSTR];						//FIXME s --> city?
  
      printf("---Loading Map---\n");
      FILE *mfile = fopen(file,"r");
@@ -87,6 +87,7 @@ int getentry(FILE *mfile, char s[])
      }
      printf("-----------------\n\n");
      return junc;
+     fclose(file);
  }
  
  /* Create node - create and initialize node, return pointer to node */
