@@ -33,4 +33,4 @@ stack_element *getdirs(char start[], char end[], node *junc);
 int getentry(FILE *mfile, char s[]);
 void formatinput(char s[]);
 void popall(stack_element * stack, char end[]);
-void strget(char s[], int maxlen);
+void getstr(char s[], int maxlen);

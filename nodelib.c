@@ -23,7 +23,7 @@
 #include "functions.h"	   /* Header file, store in local directory */
 
 /* Stores user input from stdin of maximum length maxlen into s */
-void strget(char s[], int maxlen)
+void getstr(char s[], int maxlen)
 {
     int len;
 
@@ -186,8 +186,7 @@ void formatinput(char s[]){                /* converts whole string to lower */
   s[0] = toupper(s[0]);		           /* converts letter 0 to upper */
 
   for(int i = 1; i<MAXSTR; i++){	   /* converts first letter of */
-     if(isalpha(s[i]) && s[i-1] == ' '){   /* additional words to upper */
+     if(isalpha(s[i]) && s[i-1] == ' ')    /* additional words to upper */
         s[i] = toupper(s[i]);
-     }
   }
 }

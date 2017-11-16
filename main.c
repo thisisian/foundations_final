@@ -51,14 +51,14 @@ int main(void)
     #endif
 
     /* Find the directions, dump stack */
-    char exit[5];
+    char exit[MAXSTR];
     while (strcmp(exit, "exit") != 0)
     {
         printf("Enter starting location:\n");
-        strget(start, MAXSTR);
+        getstr(start, MAXSTR);
 	formatinput(start);
         printf("Enter ending location:\n");
-        strget(end, MAXSTR);
+        getstr(end, MAXSTR);
 	formatinput(end);
         pathstack = getdirs(start, end, junc);
         printf("-----Directions-----\n%s to %s:\n", start, end);
