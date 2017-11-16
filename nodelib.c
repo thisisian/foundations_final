@@ -96,7 +96,7 @@ int getentry(FILE *mfile, char s[])
  }
  
  /* Create node - create and initialize node, return pointer to node */
- node * createnode()
+ node *createnode()
  {
      int i;
      node *p = malloc(sizeof(node));
@@ -110,7 +110,7 @@ int getentry(FILE *mfile, char s[])
   * direction is stored in dir and a pointer to the node is returned. Otherwise,
   * function dir is invalid and function returns a NULL.
   */
- node * findnode(char s[], node *junc, int *dir)
+ node *findnode(char s[], node *junc, int *dir)
  {
      int i, j;
      node *cur = NULL;

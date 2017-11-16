@@ -17,16 +17,29 @@
  * files: main.c, functions.h, nodelib.c, stacklib.c, data
  **************************************************************************/
 
-#include "functions.h"						//header file, store in local directory
+#include "functions.h"		//header file, store in local directory
+
+/* Stores user input from stdin of maximum length maxlen into s */
+void strget(char s[], int maxlen)
+{
+    int len;
+
+    fgets(s, maxlen, stdin);
+    len = strlen(s);
+    if (len > 0 && (s[len - 1] == '\n'))
+            s[len - 1] = '\0';
+}
 
 int main(void) 
 {
     stack_element *pathstack = NULL;
-    node *junc = loadmap("./data");				//load cities into map from data file
-    char start[MAXSTR];						//MAXSTR is maximum string length, defined in functions.h
+    node *junc = loadmap("./data");	// load cities into map from data file
+    char start[MAXSTR];	                // MAXSTR is maximum string length, 
+                                        // defined in functions.h
+
     char end[MAXSTR];
 
-    node *cur = NULL;						//initialize list pointers
+    node *cur = NULL;	    		// initialize list pointers
     node *node = NULL;
     int i, j;
 
@@ -36,10 +49,10 @@ int main(void)
         if ((cur = junc->dir[i]) == NULL)    /* direction points to NULL */
             continue;
         for (j = 0; cur->dir[FWD] != NULL; ++j) {
-            printf("%s", cur->name);
+            printf("%s->", cur->name);
             cur = cur->dir[FWD];
         }
-        printf("%s", cur->name);
+        printf("%s|", cur->name);
         printf("\n");
         cur = junc;
     }
@@ -48,9 +61,9 @@ int main(void)
     /* Find the directions, dump stack */
     for (;;) {
         printf("Start:\n");
-        scanf("%s", start);
+        strget(start, MAXSTR);
         printf("End:\n");
-        scanf("%s", end);
+        strget(end, MAXSTR);
         pathstack = getdirs(start, end, junc);
         printf("-----Directions-----\n%s -> %s\n", start, end);
         while (pop(&pathstack) != NULL)
