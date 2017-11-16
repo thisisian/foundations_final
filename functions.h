@@ -32,3 +32,4 @@ void getdirname(int dir, char s[]);
 stack_element *getdirs(char start[], char end[], node *junc);
 node * findnode(char s[], node *junc, int *dir);
 void inputformat(char s[]);
+void popall(stack_element * stack, char end[]);
