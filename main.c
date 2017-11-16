@@ -216,8 +216,9 @@ void getdirname(int dir, char s[]) {
 void popall(stack_element * stack) 
 {
         while (stack->node != NULL){
-                node * a = pop(stack);
-                printf("%s", a->name);
+                node a = * pop(&stack);
+                printf("%s\n", a.name);
+                
         }
 }
 
