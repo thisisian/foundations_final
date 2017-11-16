@@ -17,7 +17,7 @@
  *
  * files: main.c, functions.h, nodelib.c, stacklib.c, data
  **************************************************************************/
-#include "functions.h"						//header file, store in local directory
+#include "functions.h"		/* Header file, store in local directory */
 
 /* Peek - returns top element in stack or NULL if stack is empty. */
 node *peek(stack_element *stack)
@@ -63,20 +63,16 @@ node *peek(stack_element *stack)
   }
 
 
-/* 
- * pop all elements from stack and print
- */
+/* Pop all elements from stack and print. */
 void popall(stack_element * stack, char end[]) 
 {
         while (strcmp(stack->node->name, end) != 0){
                 node a = * pop(&stack);
                 printf("%s\n", a.name);
-                
         }
         node a = * pop(&stack);
         printf("%s\n", a.name);
 }
-
 
 
 /*
@@ -164,4 +160,3 @@ stack_element *getdirs(char start[], char end[], node *junc)
     printf("Start node not found!\n");
     return NULL;
 }
-
