@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define NUMDEG 4            /* Degree of center node */
 #define MAXSTR 100          /* Max length of string array */
