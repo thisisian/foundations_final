@@ -210,6 +210,17 @@ void getdirname(int dir, char s[]) {
         printf("getdirname: invalid direction");
 }
 
+/* 
+ * pop all elements from stack and print
+ */
+void popall(stack_element ** stack) 
+{
+        while (stack->node != NULL){
+                node a = pop(stack);
+                printf("%s", a->name);
+        }
+}
+
 /*
  * Find path between two nodes returns an array of nodes
  * along path or NULL if there's an error.
@@ -328,7 +339,8 @@ int main(void)
         scanf("%s", end);
         pathstack = getdirs(start, end, junc);
         printf("-----Directions-----\n%s -> %s\n", start, end);
-        while (pop(&pathstack) != NULL)
-            ;
+        
     }
+    
+    popall(pathstack);
 }
