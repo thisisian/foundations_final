@@ -19,10 +19,10 @@
  **************************************************************************/
 #include <stdlib.h>
 #include "functions.h"						//header file, store in local directory
-#define DEBUG 	 	    /* Add value to enable debugging mode, used with ifdef statements */
 
+/***DEBUGGING MODE AVAILABLE IN FUCTIONS.H***/
 
-/*
+/* FIXME standardize function comments
  * Get entry - load next entry from map file into s.
  * Return 1 if EOF or newline occurs after entry is scanned.
  */
@@ -49,7 +49,7 @@ int getentry(FILE *mfile, char s[])
      node *new = NULL;
      char s[MAXSTR];						//FIXME s --> city?
      
-     #ifdef DEBUG 
+     #if DEBUG 
      printf("---Loading Map---\n");
      #endif
 
@@ -61,18 +61,24 @@ int getentry(FILE *mfile, char s[])
  
      /* Loading in branches */
      for (i = 0; i < NUMDEG; ++i) {
+	 #if DEBUG
          printf("Directon %d:", i);
- 
+ 	 #endif	
+	
          /* Junction to first node on branch i */
          getentry(mfile, s);
-         if (!strcmp(s, "END")) {           	
+         if (!strcmp(s, "END")) {           
+	     #if DEBUG	
              printf(" - END\n");
+	     #endif
              continue;
          }
          new = createnode();
          strcpy(new->name, s);
          junc->dir[i] = new;
+	 #if DEBUG
          printf(" - %s", new->name);
+	 #endif
          new->dir[BACK] = junc;
          cur = new;
  
@@ -88,9 +94,13 @@ int getentry(FILE *mfile, char s[])
 	 }
          /* Last node */
          cur->dir[FWD] = NULL;
+	 #if DEBUG
          printf(" - END\n");
+	 #endif
      }
+     #if DEBUG
      printf("-----------------\n\n");
+     #endif
      return junc;
 //     fclose(file);			//FIXME
  }
@@ -121,13 +131,17 @@ int getentry(FILE *mfile, char s[])
          *dir = i;
          while (cur->dir[FWD] != NULL) {
              if (!strcmp(cur->name, s)) {
+		 #if DEBUG
                  printf("Found %s\n", cur->name);
+		 #endif
                  return cur;
              }
              cur = cur->dir[FWD];
          }
          if (!strcmp(cur->name, s)) {
+	     #if DEBUG
              printf("Found %s\n", cur->name);
+	     #endif
              return cur;
          }
          cur = junc;

@@ -38,7 +38,9 @@ node *peek(stack_element *stack)
      if (stack != NULL) {
          p = stack->prev;
          pnode = stack->node;
-         printf("Pop: %s\n", pnode->name); // testing
+	 #if DEBUG
+         printf("Pop: %s\n", pnode->name);
+	 #endif 
          free(stack);
          *stackaddr = p;
      }
@@ -52,9 +54,9 @@ node *peek(stack_element *stack)
      stack_element * p = malloc(sizeof(stack_element));
      p->prev = NULL;
      p->node = pnode;
-  
+     #if DEBUG 
      printf("Push: %s\n", p->node->name);
-  
+     #endif
      if (stack != NULL)
          p->prev = stack;
      *stackaddr = p;
