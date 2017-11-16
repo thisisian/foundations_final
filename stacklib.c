@@ -61,6 +61,24 @@ node *peek(stack_element *stack)
          p->prev = stack;
      *stackaddr = p;
   }
+
+
+/* 
+ * pop all elements from stack and print
+ */
+void popall(stack_element * stack, char end[]) 
+{
+        while (strcmp(stack->node->name, end) != 0){
+                node a = * pop(&stack);
+                printf("%s\n", a.name);
+                
+        }
+        node a = * pop(&stack);
+        printf("%s\n", a.name);
+}
+
+
+
 /*
  * Find path between two nodes returns an array of nodes
  * along path or NULL if there's an error.
