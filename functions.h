@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,14 +22,15 @@ typedef struct stack_element {
 } stack_element;
 
 /* Function Prototypes */
-node *createnode();
-int getentry(FILE *mfile, char s[]);
-node *loadmap(char file[]);
 node *peek(stack_element *stack);
 node *pop(stack_element **stackaddr);
+node *createnode();
+node *loadmap(char file[]);
+node *findnode(char s[], node *junc, int *dir);
 void push(node * pnode, stack_element **stackaddr);
 void getdirname(int dir, char s[]);
 stack_element *getdirs(char start[], char end[], node *junc);
-node * findnode(char s[], node *junc, int *dir);
-void inputformat(char s[]);
+int getentry(FILE *mfile, char s[]);
+void formatinput(char s[]);
 void popall(stack_element * stack, char end[]);
+void getstr(char s[], int maxlen);

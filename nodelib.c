@@ -18,10 +18,20 @@
  * files: main.c, functions.h, nodelib.c, stacklib.c, data
  **************************************************************************/
 #include <stdlib.h>
+#include <stdio.h>
 #include <ctype.h>
-#include "functions.h"						//header file, store in local directory
+#include "functions.h"	   /* Header file, store in local directory */
 
-/***DEBUGGING MODE AVAILABLE IN FUCTIONS.H***/
+/* Stores user input from stdin of maximum length maxlen into s */
+void getstr(char s[], int maxlen)
+{
+    int len;
+
+    fgets(s, maxlen, stdin);
+    len = strlen(s);
+    if (len > 0 && (s[len - 1] == '\n'))
+            s[len - 1] = '\0';
+}
 
 /*
  * FIXME standardize function comments
@@ -49,7 +59,7 @@ int getentry(FILE *mfile, char s[])
      node *junc = NULL;
      node *cur = NULL;
      node *new = NULL;
-     char s[MAXSTR];						//FIXME s --> city?
+     char s[MAXSTR];
      
      #if DEBUG 
      printf("---Loading Map---\n");
@@ -104,7 +114,7 @@ int getentry(FILE *mfile, char s[])
      printf("-----------------\n\n");
      #endif
      return junc;
-//     fclose(file);			//FIXME
+     fclose(mfile);
  }
  
  /* Create node - create and initialize node, return pointer to node */
@@ -152,36 +162,31 @@ int getentry(FILE *mfile, char s[])
  }
 
 /*
-   * Get direction name. Takes an input variable and saves name into s.
-   */
+ * Get direction name. Takes an input variable and saves name into s.
+ */
+void getdirname(int dir, char s[]) {
+  if (dir == 0) 
+      strcpy(s, "North");
+  else if (dir == 1)
+      strcpy(s, "East");
+  else if (dir == 2)
+      strcpy(s, "South");
+  else if (dir == 3)
+      strcpy(s, "West");
+  else 
+      printf("getdirname: invalid direction");
+}
 
-  void getdirname(int dir, char s[]) {
-      if (dir == 0) 
-          strcpy(s, "North");
-      else if (dir == 1)
-          strcpy(s, "East");
-      else if (dir == 2)
-          strcpy(s, "South");
-      else if (dir == 3)
-          strcpy(s, "West");
-      else 
-          printf("getdirname: invalid direction");
+/* Convert input string to all lower, then to first letter of word upper */
+void formatinput(char s[]){                /* converts whole string to lower */
+  for(int i = 0; i<MAXSTR; i++){
+     s[i] = tolower(s[i]);
   }
 
-/*Convert input string to all lower, then to first letter of word upper*/
+  s[0] = toupper(s[0]);		           /* converts letter 0 to upper */
 
-   void inputformat(char s[]){			//converts whole string to lower
-      for(int i = 0; i<MAXSTR; i++){
-         s[i] = tolower(s[i]);
-      }
-
-      s[0] = toupper(s[0]);			//converts letter 0 to upper
-
-      for(int i = 1; i<MAXSTR; i++){		//converts first letter of
-         if(isalpha(s[i]) && s[i-1] == ' '){	//additional words to upper
-            s[i] = toupper(s[i]);
-         }
-      }
-
-   }
-
+  for(int i = 1; i<MAXSTR; i++){	   /* converts first letter of */
+     if(isalpha(s[i]) && s[i-1] == ' ')    /* additional words to upper */
+        s[i] = toupper(s[i]);
+  }
+}

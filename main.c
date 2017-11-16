@@ -17,29 +17,18 @@
  * files: main.c, functions.h, nodelib.c, stacklib.c, data
  **************************************************************************/
 
-#include "functions.h"		//header file, store in local directory
-
-/* Stores user input from stdin of maximum length maxlen into s */
-void strget(char s[], int maxlen)
-{
-    int len;
-
-    fgets(s, maxlen, stdin);
-    len = strlen(s);
-    if (len > 0 && (s[len - 1] == '\n'))
-            s[len - 1] = '\0';
-}
+#include "functions.h"		/* Header file, store in local directory */
 
 int main(void) 
 {
     stack_element *pathstack = NULL;
-    node *junc = loadmap("./data");	// load cities into map from data file
-    char start[MAXSTR];	                // MAXSTR is maximum string length, 
-                                        // defined in functions.h
+    node *junc = loadmap("./data");   /* Load cities into map from data file */
+    char start[MAXSTR];	              /* MAXSTR is maximum string length,
+                                         defined in functions.h */
 
     char end[MAXSTR];
 
-    node *cur = NULL;	    		// initialize list pointers
+    node *cur = NULL;                 /* Initialize list pointers */
     node *node = NULL;
     int i, j;
 
@@ -62,16 +51,16 @@ int main(void)
     #endif
 
     /* Find the directions, dump stack */
-    char exit[5];
-    strcpy(exit, "xx");
-    while (strcmp(exit, "exit") != 0 )
+    char exit[MAXSTR];
+    while (strcmp(exit, "exit") != 0)
     {
         printf("Enter starting location:\n");
-        strget(start, MAXSTR);
-	inputformat(start);
+        getstr(start, MAXSTR);
+	formatinput(start);
         printf("Enter ending location:\n");
-        strget(end, MAXSTR);
-	inputformat(end);
+        getstr(end, MAXSTR);
+	formatinput(end);
+        pathstack = getdirs(start, end, junc);
 	if ((pathstack = getdirs(start, end, junc)) == NULL) {
 		continue;
 	}
@@ -80,10 +69,9 @@ int main(void)
 	printf("Type \"exit\" to quit, or any key to continue:\n");
 	scanf("%s", exit);
 	int i = 0;
-	while (exit[i])
-	{
+	while (exit[i]) {
 		exit[i] = (tolower(exit[i]));
 		++i;
 	}
-     }
+    }
 }
