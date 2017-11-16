@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define NUMDEG 4            /* Degree of center node */
 #define MAXSTR 100          /* Max length of string array */
 #define BACK 0              /* Direction towards junction */
 #define FWD 1               /* Direction away from function */
 
-#define DEBUG 1 	    /* Debugging mode: 1 to enable, 0 to disable */	
+#define DEBUG 0 	    /* Debugging mode: 1 to enable, 0 to disable */	
 
 /* Typedefs */
 typedef struct node {
