@@ -67,11 +67,8 @@ int main(void)
         printf("-----Directions-----\n%s to %s:\n", start, end);
 	popall(pathstack, end);
 	printf("Type \"exit\" to quit, or any key to continue:\n");
-	scanf("%s", exit);
-	int i = 0;
-	while (exit[i]) {
+	getstr(exit, MAXSTR);
+	for (int i = 0; i < strlen(exit); ++i) 
 		exit[i] = (tolower(exit[i]));
-		++i;
-	}
     }
 }
