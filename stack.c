@@ -60,10 +60,11 @@ node *peek(stack_element *stack)
 /* Pop all elements from stack and print. */
 void printstack(stack_element *stack, char end[])
 {
-        while (strcmp(stack->node->name, end) != 0){
-                node a = *pop(&stack);
-                printf("%s\n", a.name);
-        }
-        node a = *pop(&stack);
-        printf("%s\n", a.name);
+    int i;
+    for (i = 1; strcmp(stack->node->name, end) != 0; ++i){
+            node a = *pop(&stack);
+            printf("%d. %s\n", i, a.name);
+    }
+    node a = *pop(&stack);
+    printf("%s\n", a.name);
 }
