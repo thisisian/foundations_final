@@ -58,7 +58,7 @@ node *peek(stack_element *stack)
 }
 
 /* Pop all elements from stack and print. */
-void printstack(stack_element * stack, char end[]) 
+void printstack(stack_element *stack, char end[])
 {
         while (strcmp(stack->node->name, end) != 0){
                 node a = *pop(&stack);

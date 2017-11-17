@@ -30,6 +30,7 @@ int main(void)
     int i, j;
     node *cur = NULL;
     node *root = loadmap("./data");   /* Load cities into map from data file */
+    char s[MAXSTR];
 
     stack_element *pathstack = NULL;
     char start[MAXSTR];               /* Name of start city */
@@ -39,8 +40,7 @@ int main(void)
     debug_traversal();
     #endif
 
-    char exit[MAXSTR];
-    while (strcmp(exit, "exit") != 0)
+    while (strcmp(s, "exit") != 0)
     {
         printmap(root);
         printf("Enter starting location:\n");
@@ -54,8 +54,8 @@ int main(void)
         printf("-----Directions-----\n%s to %s:\n", start, end);
 	printstack(pathstack, end);
 	printf("Type \"exit\" to quit, or any key to continue:\n");
-	getstr(exit, MAXSTR);
-	for (int i = 0; i < strlen(exit); ++i) 
-		exit[i] = (tolower(exit[i]));
+	getstr(s, MAXSTR);
+	for (int i = 0; i < strlen(s); ++i) 
+		s[i] = (tolower(s[i]));
     }
 }

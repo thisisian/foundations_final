@@ -83,8 +83,6 @@ stack_element *getpath(char start[], char end[], node *root)
             continue;
         if ((curnode = root->dir[i]) == NULL)    /* direction points to NULL */
             continue;
-        if ((curnode = root->dir[i]) == NULL)    /* direction points to NULL */
-            continue;
         for (j = 0; curnode->dir[FWD] != NULL; ++j) {
             push(curnode, &dirstack);
             if (!strcmp(start, curnode->name)){

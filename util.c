@@ -21,7 +21,9 @@ void getstr(char s[], int maxlen)
 
     fgets(s, maxlen, stdin);
     len = strlen(s);
-    if (len > 0 && (s[len - 1] == '\n'))
+    if (len == 0)
+        s[0] = '\0';
+    else if (len > 0 && (s[len - 1] == '\n'))
             s[len - 1] = '\0';
 }
 
