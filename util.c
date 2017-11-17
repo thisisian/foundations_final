@@ -50,21 +50,24 @@ void formatinput(char s[]){                /* converts whole string to lower */
   }
 }
 
-#if DEBUG
-void debugtraversal(void)
+void printmap(node *root)
 {
-    printf("--Traversal Test--\n");
+    int i;
+    char s[MAXSTR];
+    node *cur;
+
+    printf("--- Map ---\n");
     for (i = 0; i < NUMDEG; ++i) {
         if ((cur = root->dir[i]) == NULL)    /* direction points to NULL */
             continue;
-        for (j = 0; cur->dir[FWD] != NULL; ++j) {
+        getbranchname(i, s);
+        printf("%s:\n", s);
+        while (cur->dir[FWD] != NULL) {
             printf("%s->", cur->name);
             cur = cur->dir[FWD];
         }
-        printf("%s|", cur->name);
-            printf("\n");
+        printf("%s\n", cur->name);
         cur = root;
     }
-    printf("------------------\n\n");
+    printf("-----------\n\n");
 }
-#endif

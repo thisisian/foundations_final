@@ -145,11 +145,11 @@ void getbranchname(int branchindex, char s[]) {
   if (branchindex == 0) 
       strcpy(s, "I-5 North");
   else if (branchindex == 1)
-      strcpy(s, "26 East");
+      strcpy(s, "Highway 26 East");
   else if (branchindex == 2)
       strcpy(s, "I-5 South");
   else if (branchindex == 3)
-      strcpy(s, "26 West");
+      strcpy(s, "Highway 26 West");
   else 
       printf("getbranchname: invalid direction");
 }

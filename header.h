@@ -43,3 +43,4 @@ void getbranchname(int dir, char s[]);
 void formatinput(char s[]);
 int getentry(FILE *mfile, char s[]);
 void debug_traversal(void);
+void printmap(node *root);

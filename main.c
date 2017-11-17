@@ -14,7 +14,13 @@
  * The program accepts a starting city and ending city as input, 
  * and directs the user to the best route between the two cities.
  *
- * files: functions.h, main.c, map.c, pathfind.c, stack.c, util.c
+ * The map structure is generated from an external file (see mapgen.c). 
+ * The intersection, of highway 26 and I-5 is referred to as the root. 
+ * There are braches extending from the root with nodes indicating 
+ * individual cities. A search is performed (see pathfind.c) and directions
+ * are added to a stack. The stack is then printed, giving directions.
+ *
+ * files: functions.h, main.c, mapgen.c, pathfind.c, stack.c, util.c
  **************************************************************************/
 
 #include "header.h"		/* Header file, store in local directory */
@@ -36,15 +42,15 @@ int main(void)
     char exit[MAXSTR];
     while (strcmp(exit, "exit") != 0)
     {
+        printmap(root);
         printf("Enter starting location:\n");
         getstr(start, MAXSTR);
 	formatinput(start);
         printf("Enter ending location:\n");
         getstr(end, MAXSTR);
 	formatinput(end);
-	if ((pathstack = getpath(start, end, root)) == NULL) {
+	if ((pathstack = getpath(start, end, root)) == NULL)
             continue;
-	}
         printf("-----Directions-----\n%s to %s:\n", start, end);
 	printstack(pathstack, end);
 	printf("Type \"exit\" to quit, or any key to continue:\n");
