@@ -23,23 +23,23 @@ typedef struct stack_element {
 
 /** Function Prototypes **/
 
-/* Stack related functions */
+/* Stack related functions - stack.c */
 node *pop(stack_element **stackaddr);
 void push(node * pnode, stack_element **stackaddr);
 node *peek(stack_element *stack);
 void printstack(stack_element * stack, char end[]);
 
-/* Map-related functions */
+/* Map-generation functions - mapgen.c */
 node *createnode();
 node *loadmap(char file[]);
 stack_element *getpath(char start[], char end[], node *junc);
 
-/* Searching Related */
+/* Path finding functions - pathfind.c */
 void getstr(char s[], int maxlen);
 node *findnode(char s[], node *junc, int *dir);
 void getbranchname(int dir, char s[]);
 
-/* Utiltiy */
+/* Utiltiy functions - util.c */
 void formatinput(char s[]);
 int getentry(FILE *mfile, char s[]);
 void debug_traversal(void);

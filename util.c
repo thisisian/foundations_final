@@ -40,14 +40,14 @@ int getentry(FILE *mfile, char s[])
 
 /* Convert input string to all lower, then to first letter to upper */
 void formatinput(char s[]){                /* converts whole string to lower */
-  for(int i = 0; i<MAXSTR; i++){
-     s[i] = tolower(s[i]);
-  }
+    for(int i = 0; i<MAXSTR; i++){
+        s[i] = tolower(s[i]);
+    }
 
-  s[0] = toupper(s[0]);		           /* converts letter 0 to upper */
+    s[0] = toupper(s[0]);                  /* converts letter 0 to upper */
 
-  for(int i = 1; i<MAXSTR; i++){	   /* converts first letter of */
-     if(isalpha(s[i]) && s[i-1] == ' ')    /* additional words to upper */
+    for(int i = 1; i<MAXSTR; i++){	   /* converts first letter of */
+        if(isalpha(s[i]) && s[i-1] == ' ') /* additional words to upper */
         s[i] = toupper(s[i]);
   }
 }
