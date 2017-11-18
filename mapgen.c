@@ -32,10 +32,10 @@ node *createnode()
  */
 node *loadmap(char file[]) {				
     int i;
+    char s[MAXSTR];
     node *cur = NULL;
     node *new = NULL;
     node *root = NULL;
-    char s[MAXSTR];
 
 #if DEBUG 
     printf("---Loading Map---\n");
@@ -89,6 +89,6 @@ node *loadmap(char file[]) {
         #if DEBUG
         printf("-----------------\n\n");
         #endif
-        return root;
         fclose(mfile);
+        return root;
 }
