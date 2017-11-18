@@ -15,23 +15,23 @@
 #include "header.h"
 
 /* Pop - removes top element from stack and returns node or NULL if empty. */
- node *pop(stack_element **stackaddr)
- {
-     stack_element *p = NULL;
-     node *pnode = NULL;
-     stack_element *stack = *stackaddr;
- 
-     if (stack != NULL) {
-         p = stack->prev;
-         pnode = stack->node;
-	 #if DEBUG
-         printf("Pop: %s\n", pnode->name);
-	 #endif 
-         free(stack);
-         *stackaddr = p;
-     }
-     return pnode;
- }
+node *pop(stack_element **stackaddr)
+{
+    stack_element *p = NULL;
+    node *pnode = NULL;
+    stack_element *stack = *stackaddr;
+
+    if (stack != NULL) {
+        p = stack->prev;
+        pnode = stack->node;
+        #if DEBUG
+        printf("Pop: %s\n", pnode->name);
+        #endif 
+        free(stack);
+        *stackaddr = p;
+    }
+    return pnode;
+}
 
 /* Push - push a node pointer to top element of stack or initalize a stack. */
 void push(node * pnode, stack_element **stackaddr)
@@ -57,7 +57,7 @@ node *peek(stack_element *stack)
     return pnode;
 }
 
-/* Pop all elements from stack and print. */
+/* Pop all elements from stack and print with numbered lines. */
 void printstack(stack_element *stack, char end[])
 {
     int i;
@@ -66,5 +66,5 @@ void printstack(stack_element *stack, char end[])
             printf("%d. %s\n", i, a.name);
     }
     node a = *pop(&stack);
-    printf("%s\n", a.name);
+    printf("%d: %s\n", i, a.name);
 }

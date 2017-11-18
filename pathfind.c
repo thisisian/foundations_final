@@ -77,7 +77,7 @@ stack_element *getpath(char start[], char end[], node *root)
     strcpy(branchname->name, s);
     push(branchname, &dirstack);
 
-    /* Do brute force search */
+    /* Do exhaustive search */
     for (i = 0; i < NUMDEG; ++i) {
         if (i == branchindex)          /* Skip previously searched direction */
             continue;
@@ -104,8 +104,8 @@ stack_element *getpath(char start[], char end[], node *root)
 
 /*
  * Find node - Brute force search for node pointer with name s[]. If found,
- * direction is stored in dir and a pointer to the node is returned. Otherwise,
- * function dir is invalid and function returns a NULL.
+ * branch index is stored in dir and a pointer to the node is returned.
+ * Otherwise, integer dir is invalid and function returns NULL.
  */
 node *findnode(char s[], node *root, int *dir)
 {
@@ -137,7 +137,7 @@ node *findnode(char s[], node *root, int *dir)
 }
 
 /*
- * Get branch name - Input branch number and save name into s.
+ * Get branch name - Input branch index and save name into s.
  */
 void getbranchname(int branchindex, char s[]) {
   if (branchindex == 0) 
