@@ -17,7 +17,7 @@ typedef struct node {
 } node;
 
 typedef struct stack_element {
-    node * node;
+    node * payload;
     struct stack_element *prev;
 } stack_element;
 
