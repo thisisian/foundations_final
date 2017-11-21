@@ -24,6 +24,10 @@
  */
 stack_element *getpath(char start[], char end[], node *root)
 {
+    /* 
+     * getpath starts at the ending node via findnode function called from within, 
+     * works its way down the current branch, then back up to the junction. 
+     */
     int i, j;
     char s[MAXSTR];
     node *endnode = NULL;               /* Points to end node in search */
@@ -56,7 +60,7 @@ stack_element *getpath(char start[], char end[], node *root)
         return dirstack;
         // dev note: print something here?
 
-    /* Dump stack and return to end node */
+    /* Reversing direction, dumping stack, and returning to end node */
     while (pop(&dirstack) != NULL) 
         /* pops stack until empty (until back at end node) */
         ;
@@ -81,7 +85,7 @@ stack_element *getpath(char start[], char end[], node *root)
     strcpy(branchname->name, s);
     push(branchname, &dirstack);
 
-    /* Do exhaustive search */
+    /* Do exhaustive search from root */
     for (i = 0; i < NUMDEG; ++i) {
         if (i == branchindex)          /* Skip previously searched direction */
             continue;
