@@ -54,9 +54,11 @@ stack_element *getpath(char start[], char end[], node *root)
     push(curnode, &dirstack);
     if (!strcmp(start, curnode->name))
         return dirstack;
+        // dev note: print something here?
 
     /* Dump stack and return to end node */
-    while (pop(&dirstack) != NULL)
+    while (pop(&dirstack) != NULL) 
+        /* pops stack until empty (until back at end node) */
         ;
     curnode = endnode;
 
