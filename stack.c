@@ -65,6 +65,6 @@ void printstack(stack_element *stack, char end[])
             node a = *pop(&stack);
             printf("%d. %s\n", i, a.name);
     }
-    node a = *pop(&stack);
-    printf("%d: %s\n", i, a.name);
+    node cur = *pop(&stack);
+    printf("%d: %s\n", i, cur.name);
 }
