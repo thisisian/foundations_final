@@ -60,7 +60,6 @@ void formatinput(char s[], int maxlen) {
     for (; isspace(s[j]); --j) /* remove trailing whitespace */
         ;
     s[++j] = '\0';
-    printf("[%s]\n", s);
 }
 
 void printmap(node *root)
