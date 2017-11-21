@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#define NUMDEG 4            /* Degree of center node */
+#define NUMDEG 2            /* Degree of center node */
 #define MAXSTR 100          /* Max length of string array */
 #define BACK 0              /* Direction towards root */
 #define FWD 1               /* Direction away from root */

@@ -151,12 +151,8 @@ node *findnode(char s[], node *root, int *branch)
  */
 void getbranchname(int branchindex, char s[]) {
   if (branchindex == 0) 
-      strcpy(s, "I-5 North");
-  else if (branchindex == 1)
       strcpy(s, "Highway 26 East");
-  else if (branchindex == 2)
-      strcpy(s, "I-5 South");
-  else if (branchindex == 3)
+  else if (branchindex == 1)
       strcpy(s, "Highway 26 West");
   else 
       printf("getbranchname: invalid direction");
