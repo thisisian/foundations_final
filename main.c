@@ -21,6 +21,7 @@
  * are added to a stack. The stack is then printed, giving directions.
  *
  * files: functions.h, main.c, mapgen.c, pathfind.c, stack.c, util.c
+ * (compile all above files to run)
  **************************************************************************/
 
 #include "header.h"		/* Header file, store in local directory */
