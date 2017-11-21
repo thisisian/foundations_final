@@ -25,8 +25,9 @@
 stack_element *getpath(char start[], char end[], node *root)
 {
     /* 
-     * getpath starts at the ending node via findnode function called from within, 
-     * works its way down the current branch, then back up to the junction. 
+     * getpath starts at the ending node via findnode function called 
+     * from within, works its way down the current branch, 
+     * then back up to the junction. 
      */
     int i, j;
     char s[MAXSTR];
@@ -115,7 +116,7 @@ stack_element *getpath(char start[], char end[], node *root)
  * branch index is stored in dir and a pointer to the node is returned.
  * Otherwise, integer dir is invalid and function returns NULL.
  */
-node *findnode(char s[], node *root, int *dir)
+node *findnode(char s[], node *root, int *branch)
 {
     int i, j;
     node *cur = NULL;
@@ -123,12 +124,13 @@ node *findnode(char s[], node *root, int *dir)
     for (i = 0; i < NUMDEG; ++i) {
         if ((cur = root->dir[i]) == NULL)    /* direction points to NULL */
             continue;
-        *dir = i;
+        if (branch != NULL)
+            *branch = i;
         while (cur->dir[FWD] != NULL) {
             if (!strcmp(cur->name, s)) {
-       	 #if DEBUG
+             #if DEBUG
                 printf("Found %s\n", cur->name);
-       	 #endif
+             #endif
                 return cur;
             }
             cur = cur->dir[FWD];

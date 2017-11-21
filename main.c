@@ -40,12 +40,16 @@ int main(void)
     debug_traversal();
     #endif
 
-    while (strcmp(s, "exit") != 0)
+    while (strcmp(s, "Exit") != 0)
     {
         printmap(root);
         printf("Enter starting location:\n");
         getstr(start, MAXSTR);
 	formatinput(start);
+        if (findnode(start, root, NULL) == NULL) {
+            printf("Invalid starting location\n");
+            continue;
+        }
         printf("Enter ending location:\n");
         getstr(end, MAXSTR);
 	formatinput(end);
@@ -55,9 +59,7 @@ int main(void)
 	printstack(pathstack, end);
 	printf("Type \"exit\" to quit, or any key to continue:\n");
 	getstr(s, MAXSTR);
-	for (int i = 0; i < strlen(s); ++i) 
-		s[i] = (tolower(s[i]));
+        formatinput(s);
     }
-
     return 0;
 }
