@@ -52,6 +52,8 @@ int main(void)
         }
         printf("Enter ending location:\n");
         getstr(end, MAXSTR);
+	if (strcmp(start, end) == 0) 
+		printf("You are already at your destination.\n");	/*If start and end city input are the same */
 	formatinput(end, MAXSTR);
 	if ((pathstack = getpath(start, end, root)) == NULL)
             continue;
