@@ -28,8 +28,7 @@
 
 int main(void) 
 {
-    int i, j;
-    node *cur = NULL;
+    int i;
     node *root = loadmap("./data");   /* Load cities into map from data file */
     char s[MAXSTR];
 
