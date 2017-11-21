@@ -11,11 +11,11 @@
                             /* 
                              * Note: junction node will not use BACK and FWD,
                              * but the branch number from 0 to NUMDEG. All
-                             * functions involving node traversal will reflect the
-                             * fact that the junction will have numbered branches,
-                             * while the children will have only BACK and FWD used,
-                             * despite the junction also having the same struct as 
-                             * the other nodes. 
+                             * functions involving node traversal will reflect
+                             * the fact that the junction will have numbered
+                             * branches, while the children will have only BACK
+                             * and FWD used, despite the junction also having
+                             * the same struct as the other nodes. 
                              */
 
 #define DEBUG 0 	    /* Debugging mode: 1 to enable, 0 to disable */	

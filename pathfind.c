@@ -37,16 +37,16 @@ stack_element *getpath(char start[], char end[], node *root)
     node *branchname = NULL;            /* Holds name of root node */
 
     /* Starting at the end node */
-    if ((curnode = endnode = findnode(end, root, &branchindex)) ==  NULL) { 
-        // simultaneously defines curnode = endnode and checks if NULL
-        // used so that findnode does not have to run twice
+    if ((endnode = findnode(end, root, &branchindex)) ==  NULL) { 
         printf("Error: End node not found!\n");
         return NULL;
     }
-    if (!strcmp(start, curnode->name))
+
+    if (!strcmp(start, endnode->name))
         return dirstack;
 
     /* Moving towards end of branch */
+    curnode = endnode;
     while (curnode->dir[FWD] != NULL) {
         push(curnode, &dirstack);
         if (!strcmp(start, curnode->name))
