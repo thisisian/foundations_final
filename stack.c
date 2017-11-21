@@ -23,7 +23,7 @@ node *pop(stack_element **stackaddr)
 
     if (stack != NULL) {
         p = stack->prev;
-        pnode = stack->node;
+        pnode = stack->payload;
         #if DEBUG
         printf("Pop: %s\n", pnode->name);
         #endif 
@@ -39,9 +39,9 @@ void push(node * pnode, stack_element **stackaddr)
    stack_element *stack = *stackaddr;
    stack_element * p = malloc(sizeof(stack_element));
    p->prev = NULL;
-   p->node = pnode;
+   p->payload = pnode;
    #if DEBUG 
-   printf("Push: %s\n", p->node->name);
+   printf("Push: %s\n", p->payload->name);
    #endif
    if (stack != NULL)
        p->prev = stack;
@@ -53,7 +53,7 @@ node *peek(stack_element *stack)
 {
     node *pnode = NULL;
     if (stack != NULL)
-        pnode = stack->node;
+        pnode = stack->payload;
     return pnode;
 }
 
@@ -61,7 +61,7 @@ node *peek(stack_element *stack)
 void printstack(stack_element *stack, char end[])
 {
     int i;
-    for (i = 1; strcmp(stack->node->name, end) != 0; ++i){
+    for (i = 1; strcmp(stack->payload->name, end) != 0; ++i){
             node a = *pop(&stack);
             printf("%d. %s\n", i, a.name);
     }
