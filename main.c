@@ -45,21 +45,21 @@ int main(void)
         printmap(root);
         printf("Enter starting location:\n");
         getstr(start, MAXSTR);
-	formatinput(start);
+	formatinput(start, MAXSTR);
         if (findnode(start, root, NULL) == NULL) {
             printf("Invalid starting location\n");
             continue;
         }
         printf("Enter ending location:\n");
         getstr(end, MAXSTR);
-	formatinput(end);
+	formatinput(end, MAXSTR);
 	if ((pathstack = getpath(start, end, root)) == NULL)
             continue;
         printf("-----Directions-----\n%s to %s:\n", start, end);
 	printstack(pathstack, end);
 	printf("Type \"exit\" to quit, or any key to continue:\n");
 	getstr(s, MAXSTR);
-        formatinput(s);
+        formatinput(s, MAXSTR);
     }
     return 0;
 }

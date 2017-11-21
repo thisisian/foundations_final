@@ -39,17 +39,28 @@ int getentry(FILE *mfile, char s[])
 }
 
 /* Convert input string to all lower, then to first letter to upper */
-void formatinput(char s[]){                /* converts whole string to lower */
-    for(int i = 0; i<MAXSTR; i++){
-        s[i] = tolower(s[i]);
+void formatinput(char s[], int maxlen) {
+    int i, j;        /* i is read index, j is write index */
+    int inspace = 1; /* tracks whether or not last character was a space */
+    char c;
+
+    for (i = 0; i < maxlen && isspace(s[i]); ++i) /* skip leading whitespace */
+        ;
+    for (j = 0; (c = s[i]) != '\0' && i < maxlen; ++i, ++j) {
+        if (isspace(c))
+            inspace = 1;
+        if (inspace == 1 && isalpha(c)) { 
+            s[j] = toupper(c);
+            inspace = 0;
+        } else {
+            s[j] = tolower(c); 
+        }
     }
 
-    s[0] = toupper(s[0]);                  /* converts letter 0 to upper */
-
-    for(int i = 1; i<MAXSTR; i++){	   /* converts first letter of */
-        if(isalpha(s[i]) && s[i-1] == ' ') /* additional words to upper */
-        s[i] = toupper(s[i]);
-  }
+    for (; isspace(s[j]); --j) /* remove trailing whitespace */
+        ;
+    s[++j] = '\0';
+    printf("[%s]\n", s);
 }
 
 void printmap(node *root)

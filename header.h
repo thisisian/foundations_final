@@ -50,7 +50,7 @@ node *findnode(char s[], node *junc, int *dir);
 void getbranchname(int dir, char s[]);
 
 /* Utiltiy functions - util.c */
-void formatinput(char s[]);
+void formatinput(char s[], int maxlen);
 int getentry(FILE *mfile, char s[]);
 void debug_traversal(void);
 void printmap(node *root);
