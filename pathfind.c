@@ -33,7 +33,9 @@ stack_element *getpath(char start[], char end[], node *root)
     node *branchname = NULL;            /* Holds name of root node */
 
     /* Starting at the end node */
-    if ((curnode = endnode = findnode(end, root, &branchindex)) ==  NULL) {
+    if ((curnode = endnode = findnode(end, root, &branchindex)) ==  NULL) { 
+        // simultaneously defines curnode = endnode and checks if NULL
+        // used so that findnode does not have to run twice
         printf("Error: End node not found!\n");
         return NULL;
     }
