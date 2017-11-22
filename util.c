@@ -49,17 +49,18 @@ void formatinput(char s[], int maxlen) {
     for (j = 0; (c = s[i]) != '\0' && i < maxlen; ++i, ++j) {
         if (isspace(c))
             inspace = 1;
-        if (inspace == 1 && isalpha(c)) { 
+        if (inspace == 1 && isalpha(c)) {
             s[j] = toupper(c);
             inspace = 0;
         } else {
-            s[j] = tolower(c); 
+            s[j] = tolower(c);
         }
     }
-
+    --j;
     for (; isspace(s[j]); --j) /* remove trailing whitespace */
         ;
     s[++j] = '\0';
+    printf("[%s]\n", s);
 }
 
 void printmap(node *root)

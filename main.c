@@ -7,16 +7,16 @@
  * Matt Krepp
  * Ian Winter
  *
- * This program is a simple map that represents two highways, 
+ * This program is a simple map that represents two highways,
  * i5 and highway 26. i5 runs north/south, and 26 runs east west.
  * The highways intersect at a junction (root) in the middle of the map.
  * Cities along the route (branches) are loaded into the map via a text file.
- * The program accepts a starting city and ending city as input, 
+ * The program accepts a starting city and ending city as input,
  * and directs the user to the best route between the two cities.
  *
- * The map structure is generated from an external file (see mapgen.c). 
- * The intersection, of highway 26 and I-5 is referred to as the root. 
- * There are braches extending from the root with nodes indicating 
+ * The map structure is generated from an external file (see mapgen.c).
+ * The intersection, of highway 26 and I-5 is referred to as the root.
+ * There are braches extending from the root with nodes indicating
  * individual cities. A search is performed (see pathfind.c) and directions
  * are added to a stack. The stack is then printed, giving directions.
  *
@@ -26,7 +26,7 @@
 
 #include "header.h"		/* Header file, store in local directory */
 
-int main(void) 
+int main(void)
 {
     int i;
     node *root = loadmap("./data");   /* Load cities into map from data file */

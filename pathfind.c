@@ -19,15 +19,15 @@
  *
  * A special node 'branchname' is loaded into the stack in the case
  * where an exhaustive search is needed. This node holds the name of the
- * branch in which the end node exists and is used for displaying 
+ * branch in which the end node exists and is used for displaying
  * the direction chosen at the root.
  */
 stack_element *getpath(char start[], char end[], node *root)
 {
-    /* 
-     * getpath starts at the ending node via findnode function called 
-     * from within, works its way down the current branch, 
-     * then back up to the junction. 
+    /*
+     * getpath starts at the ending node via findnode function called
+     * from within, works its way down the current branch,
+     * then back up to the junction.
      */
     int i, j;
     char s[MAXSTR];
@@ -38,7 +38,7 @@ stack_element *getpath(char start[], char end[], node *root)
     node *branchname = NULL;            /* Holds name of root node */
 
     /* Starting at the end node */
-    if ((endnode = findnode(end, root, &branchindex)) ==  NULL) { 
+    if ((endnode = findnode(end, root, &branchindex)) ==  NULL) {
         printf("Error: End node not found!\n");
         return NULL;
     }
@@ -62,7 +62,7 @@ stack_element *getpath(char start[], char end[], node *root)
         // dev note: print something here?
 
     /* Reversing direction, dumping stack, and returning to end node */
-    while (pop(&dirstack) != NULL) 
+    while (pop(&dirstack) != NULL)
         /* pops stack until empty (until back at end node) */
         ;
     curnode = endnode;
@@ -150,10 +150,10 @@ node *findnode(char s[], node *root, int *branch)
  * Get branch name - Input branch index and save name into s.
  */
 void getbranchname(int branchindex, char s[]) {
-  if (branchindex == 0) 
+  if (branchindex == 0)
       strcpy(s, "Highway 26 East");
   else if (branchindex == 1)
       strcpy(s, "Highway 26 West");
-  else 
+  else
       printf("getbranchname: invalid direction");
 }

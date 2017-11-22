@@ -26,7 +26,7 @@ node *pop(stack_element **stackaddr)
         pnode = stack->payload;
         #if DEBUG
         printf("Pop: %s\n", pnode->name);
-        #endif 
+        #endif
         free(stack);
         *stackaddr = p;
     }
@@ -40,7 +40,7 @@ void push(node * pnode, stack_element **stackaddr)
    stack_element * p = malloc(sizeof(stack_element));
    p->prev = NULL;
    p->payload = pnode;
-   #if DEBUG 
+   #if DEBUG
    printf("Push: %s\n", p->payload->name);
    #endif
    if (stack != NULL)

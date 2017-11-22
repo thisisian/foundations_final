@@ -13,7 +13,7 @@
  **************************************************************************/
 
 #include "header.h"
- 
+
 /* Create node - create and initialize node, return pointer to node */
 node *createnode()
 {
@@ -30,14 +30,14 @@ node *createnode()
  * Map file contains city names separated by commas. Branches are terminated
  * by END
  */
-node *loadmap(char file[]) {				
+node *loadmap(char file[]) {
     int i;
     char s[MAXSTR];
     node *cur = NULL;
     node *new = NULL;
     node *root = NULL;
 
-#if DEBUG 
+#if DEBUG
     printf("---Loading Map---\n");
 #endif
 
@@ -51,12 +51,12 @@ node *loadmap(char file[]) {
     for (i = 0; i < NUMDEG; ++i) {
         #if DEBUG
         printf("Directon %d:", i);
-        #endif	
-       
+        #endif
+
         /* Junction to first node on branch i */
         getentry(mfile, s);
-        if (!strcmp(s, "END")) {           
-            #if DEBUG	
+        if (!strcmp(s, "END")) {
+            #if DEBUG
             printf(" - END\n");
             #endif
             continue;
