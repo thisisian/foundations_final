@@ -79,7 +79,6 @@ void printmap(node *root)
             printf("%s->", cur->name);
             cur = cur->dir[FWD];
         }
-        printf("%s\n", cur->name);
         cur = root;
     }
     printf("-----------\n\n");
