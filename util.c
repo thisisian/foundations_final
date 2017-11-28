@@ -28,14 +28,34 @@ void getstr(char s[], int maxlen)
 }
 
 /* Stores a cell from a csv file */
-int getentry(FILE *mfile, char s[])
+int getentry(FILE *mfile, char s[],float *fwdCost,float *backCost)
 {
-    int i;
+    int i; float back, fwd;
     char c;
+    char cityAndLengths[MAXSTR];
+    char *cityName;
+    char *fwdCostStr;
+    char *backCostStr;
+    const char delim[2]="^";
 
+    // get the whole entry (city + lenghts)
     for (i = 0; (c = fgetc(mfile)) != EOF && c != '\n' && c != ','; ++i)
-        s[i] = c;
-    s[i] = '\0';
+        cityAndLengths[i] = c;
+    cityAndLengths[i] = '\0';
+
+    backCostStr=strtok(cityAndLengths,delim);
+    cityName=strtok(NULL,delim);
+    fwdCostStr=strtok(NULL,delim);
+    back=strtof(backCostStr,NULL);
+    fwd=strtof(fwdCostStr,NULL);
+    *fwdCost=fwd; *backCost=back;
+    strcpy(s,cityName);
+/*
+    #if DEBUG
+    printf("backCost: %f, fwd Cost=%f, city name: %s\n",
+	*backCost, *fwdCost, s);
+    #endif
+*/
 }
 
 /* Convert input string to all lower, then to first letter to upper */

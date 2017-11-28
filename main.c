@@ -29,7 +29,7 @@
 int main(void)
 {
     int i;
-    node *root = loadmap("./data");   /* Load cities into map from data file */
+    node *root = loadmap("data");   /* Load cities into map from data file */
     char s[MAXSTR];
 
     stack_element *pathstack = NULL;
@@ -37,7 +37,7 @@ int main(void)
     char end[MAXSTR];                 /* Name of end city */
 
     #if DEBUG
-    debug_traversal();
+//    debug_traversal();
     #endif
 
     while (strcmp(s, "Exit") != 0)
