@@ -59,11 +59,9 @@ stack_element *getpath(char start[], char end[], node *root)
     push(curnode, &dirstack);
     if (!strcmp(start, curnode->name))
         return dirstack;
-        // dev note: print something here?
 
     /* Reversing direction, dumping stack, and returning to end node */
-    while (pop(&dirstack) != NULL)
-        /* pops stack until empty (until back at end node) */
+    while (pop(&dirstack) != NULL) /* pop stack until empty */
         ;
     curnode = endnode;
 
@@ -146,14 +144,17 @@ node *findnode(char s[], node *root, int *branch)
     return NULL;
 }
 
-/*
- * Get branch name - Input branch index and save name into s.
- */
-void getbranchname(int branchindex, char s[]) {
-  if (branchindex == 0)
-      strcpy(s, "Highway 26 East");
-  else if (branchindex == 1)
-      strcpy(s, "Highway 26 West");
-  else
-      printf("getbranchname: invalid direction");
+/* Get branch name - Input branch index and save name into s. */
+void getbranchname(int branchindex, char s[]) { 
+    s[0] = '\0';
+    if (branchindex == 0)
+        strcpy(s, "I-5 North");
+    else if (branchindex == 1)
+        strcpy(s, "Highway 26 East");
+    else if (branchindex == 2)
+        strcpy(s, "I-5 South");
+    else if (branchindex == 3)
+        strcpy(s, "Highway 26 West");
+    else
+        printf("getbranchname: invalid direction");
 }

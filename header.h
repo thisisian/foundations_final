@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#define NUMDEG 2            /* Degree of center node */
+#define NUMDEG 4            /* Degree of center node */
 #define MAXSTR 100          /* Max length of string array */
 #define BACK 0              /* Direction towards root */
 #define FWD 1               /* Direction away from root */
@@ -20,7 +20,7 @@
 
 #define DEBUG 0 	    /* Debugging mode: 1 to enable, 0 to disable */
 
-/* Typedefs */
+/** Typedefs **/
 typedef struct node {
     char name[MAXSTR];
     struct node *dir[NUMDEG];
