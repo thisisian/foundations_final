@@ -30,25 +30,23 @@ void getstr(char s[], int maxlen)
 /* Stores a cell from a csv file */
 int getentry(FILE *mfile, char s[],float *fwdCost,float *backCost)
 {
-    int i; float back, fwd;
+    int i; 
     char c;
     char cityAndLengths[MAXSTR];
-    char *cityName;
-    char *fwdCostStr;
-    char *backCostStr;
+    char *cityName, *fwdCostStr, *backCostStr;
     const char delim[2]="^";
 
     // get the whole entry (city + lenghts)
+    // entry is in the form fwdCost^cityName^backCost
     for (i = 0; (c = fgetc(mfile)) != EOF && c != '\n' && c != ','; ++i)
         cityAndLengths[i] = c;
     cityAndLengths[i] = '\0';
 
-    backCostStr=strtok(cityAndLengths,delim);
+    fwdCostStr=strtok(cityAndLengths,delim);
     cityName=strtok(NULL,delim);
-    fwdCostStr=strtok(NULL,delim);
-    back=strtof(backCostStr,NULL);
-    fwd=strtof(fwdCostStr,NULL);
-    *fwdCost=fwd; *backCost=back;
+    backCostStr=strtok(NULL,delim);
+    *backCost=strtof(backCostStr,NULL);
+    *fwdCost=strtof(fwdCostStr,NULL);
     strcpy(s,cityName);
 /*
     #if DEBUG

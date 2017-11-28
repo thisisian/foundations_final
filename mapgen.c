@@ -65,12 +65,12 @@ node *loadmap(char file[]) {
         }
         new = createnode();
         strcpy(new->name, s);
-	new->prevCityCost=backCost;
-	new->nextCityCost=fwdCost;
+	new->backCost=backCost;
+	new->fwdCost=fwdCost;
         root->dir[i] = new;
         #if DEBUG
         printf(" - %s , backcost: %f, fwdCost: %f\n", new->name,
-		new->prevCityCost,new->nextCityCost);
+		new->backCost,new->fwdCost);
         #endif
         new->dir[BACK] = root;
         cur = new;
@@ -80,14 +80,14 @@ node *loadmap(char file[]) {
         while (strcmp(s, "END")){
             new = createnode();
             strcpy(new->name, s);
-            new->prevCityCost=backCost;
-            new->nextCityCost=fwdCost;
+            new->backCost=backCost;
+            new->fwdCost=fwdCost;
             cur->dir[FWD] = new;
             new->dir[BACK] = cur;
             cur = new;
             #if DEBUG
 	    printf("name: %s, back cost:%f, next cost:%f\n",new->name,
-		new->prevCityCost,new->nextCityCost);
+		new->backCost,new->prevCost);
 	    #endif
 	    getentry(mfile, s, &fwdCost, &backCost); /* Read next entry */
         }

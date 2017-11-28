@@ -49,14 +49,14 @@ stack_element *getpath(char start[], char end[], node *root)
     /* Moving towards end of branch */
     curnode = endnode;
     while (curnode->dir[FWD] != NULL) {
-        push(curnode, &dirstack);
+        push(curnode, &dirstack); curnode->costToUse=FWD;
         if (!strcmp(start, curnode->name))
             return dirstack;
         curnode = curnode->dir[FWD];
     }
 
     /* Checking last node in branch */
-    push(curnode, &dirstack);
+    push(curnode, &dirstack); curnode->costToUse=FWD;
     if (!strcmp(start, curnode->name))
         return dirstack;
         // dev note: print something here?
@@ -69,14 +69,14 @@ stack_element *getpath(char start[], char end[], node *root)
 
     /* Move towards root */
     while (curnode->dir[BACK] != root) {
-        push(curnode, &dirstack);
+        push(curnode, &dirstack); curnode->costToUse=BACK;
         if (!strcmp(start, curnode->name))
             return dirstack;
-        curnode = curnode->dir[BACK];
+        curnode = curnode->dir[BACK]; curnode->costToUse=BACK;
     }
 
     /* Checking last node before root */
-    push(curnode, &dirstack);
+    push(curnode, &dirstack); curnode->costToUse=BACK;
     if (!strcmp(start, curnode->name))
         return dirstack;
 
@@ -93,13 +93,13 @@ stack_element *getpath(char start[], char end[], node *root)
         if ((curnode = root->dir[i]) == NULL)    /* direction points to NULL */
             continue;
         for (j = 0; curnode->dir[FWD] != NULL; ++j) {
-            push(curnode, &dirstack);
+            push(curnode, &dirstack); curnode->costToUse=FWD;
             if (!strcmp(start, curnode->name)){
                 return dirstack;
             }
             curnode = curnode->dir[FWD];
         }
-        push(curnode, &dirstack);
+        push(curnode, &dirstack); curnode->costToUse=FWD;
         if (!strcmp(start, curnode->name)) {
             return dirstack;
         }

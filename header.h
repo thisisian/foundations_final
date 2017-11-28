@@ -18,20 +18,22 @@
                              * the same struct as the other nodes.
                              */
 
-#define DEBUG 1  	    /* Debugging mode: 1 to enable, 0 to disable */
+#define DEBUG 0  	    /* Debugging mode: 1 to enable, 0 to disable */
 
 
 /* Typedefs */
 typedef struct node {
     char name[MAXSTR];
     struct node *dir[NUMDEG];
-    float prevCityCost;
-    float nextCityCost;
+    float fwdCost;
+    float backCost;
+    int costToUse;
 } node;
 
 typedef struct stack_element {
     node * payload;
     struct stack_element *prev;
+    int direction;	
 } stack_element;
 
 /** Function Prototypes **/
