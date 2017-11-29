@@ -48,12 +48,6 @@ int getentry(FILE *mfile, char s[],float *fwdCost,float *backCost)
     *backCost=strtof(backCostStr,NULL);
     *fwdCost=strtof(fwdCostStr,NULL);
     strcpy(s,cityName);
-/*
-    #if DEBUG
-    printf("backCost: %f, fwd Cost=%f, city name: %s\n",
-	*backCost, *fwdCost, s);
-    #endif
-*/
 }
 
 /* Convert input string to all lower, then to first letter to upper */

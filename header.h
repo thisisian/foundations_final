@@ -33,7 +33,6 @@ typedef struct node {
 typedef struct stack_element {
     node * payload;
     struct stack_element *prev;
-    int direction;	
 } stack_element;
 
 /** Function Prototypes **/

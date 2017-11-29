@@ -63,7 +63,7 @@ void printstack(stack_element *stack, char end[])
     int i;
     for (i = 1; strcmp(stack->payload->name, end) != 0; ++i){
             node a = *pop(&stack);
-            printf("%d. %s, Cost: ",i, a.name);
+            printf("%d. %s, Cost to Next: ",i, a.name);
 	    if (a.costToUse == FWD) { printf("%f\n",a.fwdCost); }
 	    else if (a.costToUse == BACK) { printf("%f\n",a.backCost); }
     }
