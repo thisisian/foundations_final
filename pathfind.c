@@ -36,6 +36,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
     stack_element *dirstack = NULL;
     int branchindex;                    /* Holds end node's branch index */
     node *branchname = NULL;            /* Holds name of root node */
+	float cost_sum = 0.0;				/* Accumulates cost of path, depending on stack actions */
 
     /* Starting at the end node */
     if ((endnode = findnode(end, root, &branchindex)) ==  NULL) {
@@ -43,16 +44,17 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
         return NULL;
     }
 
-    if (!strcmp(start, endnode->name)) {
-        *cost=0.0; 
+    if (!strcmp(start, endnode->name)) {	/* If start and end locations are the same, cost is 0 */ 
+        *cost=0.0;					
 	return dirstack;
     }
     /* Moving towards end of branch */
     curnode = endnode;
     while (curnode->dir[FWD] != NULL) {
         push(curnode, &dirstack); 
+		cost_sum += curnode->cost;							//adds cost of current node to sum
         if (!strcmp(start, curnode->name)) {
-            *cost=(curnode->cost)-(endnode->cost);
+            *cost = cost_sum - endnode->cost;				//DEBUG NOTES REMOVE FIXME works; same branch, start below end
 	    return dirstack;
         }
 	curnode = curnode->dir[FWD];
@@ -60,31 +62,36 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 
     /* Checking last node in branch */
     push(curnode, &dirstack); 
-	if (!strcmp(start, curnode->name)) {
-            *cost=(curnode->cost)-(endnode->cost);
-            return dirstack;
+	if (!strcmp(start, curnode->name)) {				/* Cost accumulation condition: */
+        cost_sum += curnode->cost;						/* If start is below end, and start is the last node in the branch */
+		*cost = cost_sum - endnode->cost;			
+        printf("hello debug %f\n", cost_sum);	
+		return dirstack;
         }
 
     /* Reversing direction, dumping stack, and returning to end node */
-    while (pop(&dirstack) != NULL)
+    while (pop(&dirstack) != NULL) {
         /* pops stack until empty (until back at end node) */
-        ;
+    	cost_sum = 0.0;									/* Clear accumulated sum */	
+	}
     curnode = endnode;
 
     /* Move towards root */
     while (curnode->dir[BACK] != root) {
-        push(curnode, &dirstack); 
+        push(curnode, &dirstack);
+		cost_sum += curnode->cost; 
         if (!strcmp(start, curnode->name)) {
-	    *cost=(endnode->cost)-(curnode->cost);
+	    	*cost= cost_sum - curnode->cost;
             return dirstack;
-	}
-	curnode = curnode->dir[BACK];
+		}
+		curnode = curnode->dir[BACK];
     }
 
     /* Checking last node before root */
     push(curnode, &dirstack); 
-    if (!strcmp(start, curnode->name)) {
-        *cost=(endnode->cost)-(curnode->cost);
+	cost_sum += curnode->cost; 
+	if (!strcmp(start, curnode->name)) {
+        *cost = cost_sum - curnode->cost;
         return dirstack;
     }
 
