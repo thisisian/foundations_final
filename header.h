@@ -25,9 +25,7 @@
 typedef struct node {
     char name[MAXSTR];
     struct node *dir[NUMDEG];
-    float fwdCost;
-    float backCost;
-    int costToUse;
+    float cost;
 } node;
 
 typedef struct stack_element {
@@ -41,12 +39,12 @@ typedef struct stack_element {
 node *pop(stack_element **stackaddr);
 void push(node * pnode, stack_element **stackaddr);
 node *peek(stack_element *stack);
-void printstack(stack_element * stack, char end[]);
+void printstack(stack_element * stack, char end[], float cost);
 
 /* Map-generation functions - mapgen.c */
 node *createnode();
 node *loadmap(char file[]);
-stack_element *getpath(char start[], char end[], node *junc);
+stack_element *getpath(char start[], char end[], node *junc, float *cost);
 
 /* Path finding functions - pathfind.c */
 void getstr(char s[], int maxlen);
@@ -55,6 +53,6 @@ void getbranchname(int dir, char s[]);
 
 /* Utility functions - util.c */
 void formatinput(char s[], int maxlen);
-int getentry(FILE *mfile, char s[], float *fwdCost, float *backCost);
+int getentry(FILE *mfile, char s[],float *cost);
 void debug_traversal(void);
 void printmap(node *root);

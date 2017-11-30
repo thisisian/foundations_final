@@ -22,7 +22,7 @@
  * branch in which the end node exists and is used for displaying
  * the direction chosen at the root.
  */
-stack_element *getpath(char start[], char end[], node *root)
+stack_element *getpath(char start[], char end[], node *root, float *cost)
 {
     /*
      * getpath starts at the ending node via findnode function called
@@ -43,23 +43,27 @@ stack_element *getpath(char start[], char end[], node *root)
         return NULL;
     }
 
-    if (!strcmp(start, endnode->name))
-        return dirstack;
-
+    if (!strcmp(start, endnode->name)) {
+        *cost=0.0; 
+	return dirstack;
+    }
     /* Moving towards end of branch */
     curnode = endnode;
     while (curnode->dir[FWD] != NULL) {
-        push(curnode, &dirstack); curnode->costToUse=FWD;
-        if (!strcmp(start, curnode->name))
-            return dirstack;
-        curnode = curnode->dir[FWD];
+        push(curnode, &dirstack); 
+        if (!strcmp(start, curnode->name)) {
+            *cost=(curnode->cost)-(endnode->cost);
+	    return dirstack;
+        }
+	curnode = curnode->dir[FWD];
     }
 
     /* Checking last node in branch */
-    push(curnode, &dirstack); curnode->costToUse=FWD;
-    if (!strcmp(start, curnode->name))
-        return dirstack;
-        // dev note: print something here?
+    push(curnode, &dirstack); 
+	if (!strcmp(start, curnode->name)) {
+            *cost=(curnode->cost)-(endnode->cost);
+            return dirstack;
+        }
 
     /* Reversing direction, dumping stack, and returning to end node */
     while (pop(&dirstack) != NULL)
@@ -69,16 +73,20 @@ stack_element *getpath(char start[], char end[], node *root)
 
     /* Move towards root */
     while (curnode->dir[BACK] != root) {
-        push(curnode, &dirstack); curnode->costToUse=BACK;
-        if (!strcmp(start, curnode->name))
+        push(curnode, &dirstack); 
+        if (!strcmp(start, curnode->name)) {
+	    *cost=(endnode->cost)-(curnode->cost);
             return dirstack;
-        curnode = curnode->dir[BACK]; curnode->costToUse=BACK;
+	}
+	curnode = curnode->dir[BACK];
     }
 
     /* Checking last node before root */
-    push(curnode, &dirstack); curnode->costToUse=BACK;
-    if (!strcmp(start, curnode->name))
+    push(curnode, &dirstack); 
+    if (!strcmp(start, curnode->name)) {
+        *cost=(endnode->cost)-(curnode->cost);
         return dirstack;
+    }
 
     /* Getting a name for root node */
     getbranchname(branchindex, s);
@@ -93,14 +101,16 @@ stack_element *getpath(char start[], char end[], node *root)
         if ((curnode = root->dir[i]) == NULL)    /* direction points to NULL */
             continue;
         for (j = 0; curnode->dir[FWD] != NULL; ++j) {
-            push(curnode, &dirstack); curnode->costToUse=FWD;
+            push(curnode, &dirstack); 
             if (!strcmp(start, curnode->name)){
+		*cost= endnode->cost + curnode->cost;
                 return dirstack;
             }
             curnode = curnode->dir[FWD];
         }
-        push(curnode, &dirstack); curnode->costToUse=FWD;
+        push(curnode, &dirstack); 
         if (!strcmp(start, curnode->name)) {
+	    *cost= endnode->cost + curnode->cost;
             return dirstack;
         }
         for (j; j >= 0; --j)

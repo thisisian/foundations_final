@@ -58,15 +58,13 @@ node *peek(stack_element *stack)
 }
 
 /* Pop all elements from stack and print with numbered lines. */
-void printstack(stack_element *stack, char end[])
+void printstack(stack_element *stack, char end[], float cost)
 {
     int i;
     for (i = 1; strcmp(stack->payload->name, end) != 0; ++i){
             node a = *pop(&stack);
-            printf("%d. %s, Cost to Next: ",i, a.name);
-	    if (a.costToUse == FWD) { printf("%f\n",a.fwdCost); }
-	    else if (a.costToUse == BACK) { printf("%f\n",a.backCost); }
+            printf("%d. %s,\n",i, a.name);
     }
     node cur = *pop(&stack);
-    printf("%d: %s\n", i, cur.name);
+    printf("%d: %s\nTotal Cost: %.2f\n", i, cur.name, cost);
 }

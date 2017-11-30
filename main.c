@@ -35,10 +35,7 @@ int main(void)
     stack_element *pathstack = NULL;
     char start[MAXSTR];               /* Name of start city */
     char end[MAXSTR];                 /* Name of end city */
-
-    #if DEBUG
-//    debug_traversal();
-    #endif
+    float cost=0.0;		    // cost of trip
 
     while (strcmp(s, "Exit") != 0)
     {
@@ -55,10 +52,10 @@ int main(void)
 	if (strcmp(start, end) == 0) 
 		printf("You are already at your destination.\n");	/*If start and end city input are the same */
 	formatinput(end, MAXSTR);
-	if ((pathstack = getpath(start, end, root)) == NULL)
+	if ((pathstack = getpath(start, end, root, &cost)) == NULL)
             continue;
         printf("-----Directions-----\n%s to %s:\n", start, end);
-	printstack(pathstack, end);
+	printstack(pathstack, end, cost);
 	printf("Type \"exit\" to quit, or any key to continue:\n");
 	getstr(s, MAXSTR);
         formatinput(s, MAXSTR);

@@ -36,8 +36,7 @@ node *loadmap(char file[]) {
     node *cur = NULL;
     node *new = NULL;
     node *root = NULL;
-    float fwdCost=0;
-    float backCost=0;
+    float cost=0;
 
 #if DEBUG
     printf("---Loading Map---\n");
@@ -56,7 +55,7 @@ node *loadmap(char file[]) {
         #endif
 
         /* Junction to first node on branch i */
-        getentry(mfile, s, &fwdCost, &backCost);
+        getentry(mfile, s, &cost);
         if (!strcmp(s, "END")) {
             #if DEBUG
             printf(" - END\n");
@@ -65,31 +64,29 @@ node *loadmap(char file[]) {
         }
         new = createnode();
         strcpy(new->name, s);
-	new->backCost=backCost;
-	new->fwdCost=fwdCost;
+	new->cost=cost;
         root->dir[i] = new;
         #if DEBUG
-        printf(" - %s , backcost: %f, fwdCost: %f\n", new->name,
-		new->backCost,new->fwdCost);
+        printf(" - %s, cost: %f\n", new->name,
+		new->cost);
         #endif
         new->dir[BACK] = root;
         cur = new;
 
         /* Center nodes */
-        getentry(mfile, s, &fwdCost, &backCost);
+        getentry(mfile, s, &cost);
         while (strcmp(s, "END")){
             new = createnode();
             strcpy(new->name, s);
-            new->backCost=backCost;
-            new->fwdCost=fwdCost;
+            new->cost=cost;
             cur->dir[FWD] = new;
             new->dir[BACK] = cur;
             cur = new;
             #if DEBUG
-	    printf("name: %s, back cost:%f, next cost:%f\n",new->name,
-		new->backCost,new->prevCost);
+	    printf("name: %s, cost:%f\n",new->name,
+		new->cost);
 	    #endif
-	    getentry(mfile, s, &fwdCost, &backCost); /* Read next entry */
+	    getentry(mfile, s, &cost); /* Read next entry */
         }
         /* Last node */
         cur->dir[FWD] = NULL;
