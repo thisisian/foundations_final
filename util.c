@@ -81,11 +81,12 @@ void printmap(node *root)
         if ((cur = root->dir[i]) == NULL)    /* direction points to NULL */
             continue;
         getbranchname(i, s);
-        printf("%s:\n", s);
+        printf("%s:", s);
         while (cur->dir[FWD] != NULL) {
             printf("%s->", cur->name);
             cur = cur->dir[FWD];
         }
+        printf("%s\n", cur->name);
         cur = root;
     }
     printf("-----------\n\n");
