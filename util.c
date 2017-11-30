@@ -34,7 +34,7 @@ int getentry(FILE *mfile, char s[],float *cost)
     char c;
     char cityAndCost[MAXSTR];
     char *cityName, *costStr;
-    const char delim[2]="^";
+    const char delim = '^';
 
     // get the whole entry (city + cost)
     // entry is in the form cityName^cost
@@ -42,9 +42,9 @@ int getentry(FILE *mfile, char s[],float *cost)
         cityAndCost[i] = c;
     cityAndCost[i] = '\0';
 
-    cityName=strtok(cityAndCost,delim);
-    costStr=strtok(NULL,delim);
-    *cost=strtof(costStr,NULL);
+    cityName=strtok(cityAndCost,&delim);
+    costStr=strtok(NULL,&delim);
+    *cost=strtof(costStr,NULL);							//library function, changes string to float
     strcpy(s,cityName);
 }
 
