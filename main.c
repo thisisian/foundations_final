@@ -29,16 +29,13 @@
 int main(void)
 {
     int i;
-    node *root = loadmap("./data");   /* Load cities into map from data file */
+    node *root = loadmap("data");   /* Load cities into map from data file */
     char s[MAXSTR];
 
     stack_element *pathstack = NULL;
     char start[MAXSTR];               /* Name of start city */
     char end[MAXSTR];                 /* Name of end city */
-
-    #if DEBUG
-    debug_traversal();
-    #endif
+    float cost=0.0;		    // cost of trip
 
     while (strcmp(s, "Exit") != 0)
     {
@@ -55,10 +52,10 @@ int main(void)
 	if (strcmp(start, end) == 0) 
 		printf("Starting location and destination are the same.\n");
 	formatinput(end, MAXSTR);
-	if ((pathstack = getpath(start, end, root)) == NULL)
+	if ((pathstack = getpath(start, end, root, &cost)) == NULL)
             continue;
         printf("-----Directions-----\n%s to %s:\n", start, end);
-	printstack(pathstack, end);
+	printstack(pathstack, end, cost);
 	printf("Type \"exit\" to quit, or any key to continue:\n");
 	getstr(s, MAXSTR);
         formatinput(s, MAXSTR);

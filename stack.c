@@ -58,13 +58,16 @@ node *peek(stack_element *stack)
 }
 
 /* Pop all elements from stack and print with numbered lines. */
-void printstack(stack_element *stack, char end[])
+void printstack(stack_element *stack, char end[], float cost)
 {
     int i;
+	float dollar_cost;
     for (i = 1; strcmp(stack->payload->name, end) != 0; ++i){
             node a = *pop(&stack);
-            printf("%d. %s\n", i, a.name);
+            printf("%d. %s\n",i, a.name);
     }
     node cur = *pop(&stack);
-    printf("%d. %s\n", i, cur.name);
+    printf("%d: %s\nTotal Miles: %.1f\n", i, cur.name, cost);
+	dollar_cost = (cost * 2.88)/20;
+	printf("\nAssuming gas costs $2.88 per gallon, and 20 miles/gallon, your trip will cost $%.2f.\n", dollar_cost);
 }

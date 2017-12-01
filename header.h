@@ -18,12 +18,14 @@
                              * the same struct as the other nodes.
                              */
 
-#define DEBUG 0 	    /* Debugging mode: 1 to enable, 0 to disable */
+#define DEBUG 0  	    /* Debugging mode: 1 to enable, 0 to disable */
+
 
 /** Typedefs **/
 typedef struct node {
     char name[MAXSTR];
     struct node *dir[NUMDEG];
+    float cost;
 } node;
 
 typedef struct stack_element {
@@ -37,20 +39,20 @@ typedef struct stack_element {
 node *pop(stack_element **stackaddr);
 void push(node * pnode, stack_element **stackaddr);
 node *peek(stack_element *stack);
-void printstack(stack_element * stack, char end[]);
+void printstack(stack_element * stack, char end[], float cost);
 
 /* Map-generation functions - mapgen.c */
 node *createnode();
 node *loadmap(char file[]);
-stack_element *getpath(char start[], char end[], node *junc);
+stack_element *getpath(char start[], char end[], node *junc, float *cost);
 
 /* Path finding functions - pathfind.c */
 void getstr(char s[], int maxlen);
 node *findnode(char s[], node *junc, int *dir);
 void getbranchname(int dir, char s[]);
 
-/* Utiltiy functions - util.c */
+/* Utility functions - util.c */
 void formatinput(char s[], int maxlen);
-int getentry(FILE *mfile, char s[]);
+int getentry(FILE *mfile, char s[],float *cost);
 void debug_traversal(void);
 void printmap(node *root);

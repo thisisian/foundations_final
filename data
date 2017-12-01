@@ -1,4 +1,4 @@
-North Portland,Vancouver,END
-East Portland,Gresham,Boring,Sandy,END
-South Portland,Tigard,Lake Oswego,Tualatin,Stafford,Wilsonville,Aurora,Hubbard,Woodburn,END
-West Portland,Sylvan,Beaverton,Tanasbourne,Hillsboro,North Plains,Mountaindale,END
+North Portland^9.9,Vancouver^5.0,END^0
+East Portland^1.2,Gresham^15.0,Boring^8.5,Sandy^7.0,END^0
+South Portland^1.0,Tigard^8.5,Lake Oswego^1.1,Tualatin^5.0,Stafford^2.0,Wilsonville^4.0,Aurora^5.0,Hubbard^4.4,Woodburn^3.4,END^0
+West Portland^3.2,Sylvan^1.9,Beaverton^3.9,Tanasbourne^5.9,Hillsboro^6.1,North Plains^2.5,Mountaindale^3.3,END^0
