@@ -36,6 +36,8 @@ stack_element *getpath(char start[], char end[], node *root)
     stack_element *dirstack = NULL;
     int branchindex;                    /* Holds end node's branch index */
     node *branchname = NULL;            /* Holds name of root node */
+    char *branches[NUMDEG];
+    for(i=0;i<NUMDEG;i++) branches[i]=calloc(MAXSTR,sizeof(char));
 
     /* Starting at the end node */
     if ((endnode = findnode(end, root, &branchindex)) ==  NULL) {
@@ -79,9 +81,9 @@ stack_element *getpath(char start[], char end[], node *root)
         return dirstack;
 
     /* Getting a name for root node */
-    getbranchname(branchindex, s);
+    getbranchname(branches); /*writes to branches*/
     branchname = createnode();
-    strcpy(branchname->name, s);
+    strcpy(branchname->name, branches[branchindex]);
     push(branchname, &dirstack);
 
     /* Do exhaustive search from root */
@@ -107,6 +109,7 @@ stack_element *getpath(char start[], char end[], node *root)
     }
     printf("Start node not found!\n");
     return NULL;
+	for(i=0; i<NUMDEG; i++) free(branches[i]);
 }
 
 /*
@@ -144,17 +147,15 @@ node *findnode(char s[], node *root, int *branch)
     return NULL;
 }
 
-/* Get branch name - Input branch index and save name into s. */
-void getbranchname(int branchindex, char s[]) { 
-    s[0] = '\0';
-    if (branchindex == 0)
-        strcpy(s, "I-5 North");
-    else if (branchindex == 1)
-        strcpy(s, "Highway 26 East");
-    else if (branchindex == 2)
-        strcpy(s, "I-5 South");
-    else if (branchindex == 3)
-        strcpy(s, "Highway 26 West");
-    else
-        printf("getbranchname: invalid direction");
+/* Get branch name - From file and save name(s) into s. */
+void getbranchname(char * s[NUMDEG]) {
+   FILE *mfile = fopen("data","r");
+   char temp[MAXSTR];
+   int i = 0;
+   while(fgets (temp,(NUMDEG* sizeof temp),mfile))
+   {
+		strcpy(s[i], strtok(temp,":,\n"));
+		i++;
+   }
+   fclose(mfile);
 }

@@ -47,7 +47,7 @@ stack_element *getpath(char start[], char end[], node *junc);
 /* Path finding functions - pathfind.c */
 void getstr(char s[], int maxlen);
 node *findnode(char s[], node *junc, int *dir);
-void getbranchname(int dir, char s[]);
+void getbranchname(char * branches[NUMDEG]);
 
 /* Utiltiy functions - util.c */
 void formatinput(char s[], int maxlen);

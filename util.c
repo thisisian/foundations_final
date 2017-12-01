@@ -32,9 +32,10 @@ int getentry(FILE *mfile, char s[])
 {
     int i;
     char c;
-
-    for (i = 0; (c = fgetc(mfile)) != EOF && c != '\n' && c != ','; ++i)
-        s[i] = c;
+    	for (i = 0; (c = fgetc(mfile)) != EOF && c != '\n' && c != ','; ++i){
+       		s[i] = c;
+       		if(c == ':') i = -1; //overwrites from beginning if ':' is reached
+		}
     s[i] = '\0';
 }
 
@@ -75,13 +76,15 @@ void printmap(node *root)
     int i;
     char s[MAXSTR];
     node *cur;
+	char *branches[NUMDEG];
+    for(i=0;i<NUMDEG;i++) branches[i]=calloc(MAXSTR,sizeof(char));
 
+    getbranchname(branches);
     printf("--- Map ---\n");
     for (i = 0; i < NUMDEG; ++i) {
         if ((cur = root->dir[i]) == NULL)    /* direction points to NULL */
             continue;
-        getbranchname(i, s);
-        printf("%s:", s);
+        printf("%s:", branches[i]);
         while (cur->dir[FWD] != NULL) {
             printf("%s->", cur->name);
             cur = cur->dir[FWD];
@@ -90,4 +93,6 @@ void printmap(node *root)
         cur = root;
     }
     printf("-----------\n\n");
+	for(i=0;i<NUMDEG;i++) free(branches[i]);
+
 }
