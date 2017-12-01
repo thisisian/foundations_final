@@ -39,7 +39,7 @@ stack_element *getpath(char start[], char end[], node *root)
 
     /* Starting at the end node */
     if ((endnode = findnode(end, root, &branchindex)) ==  NULL) {
-        printf("Error: End node not found!\n");
+        printf("Invalid destination.\n");
         return NULL;
     }
 
@@ -105,7 +105,7 @@ stack_element *getpath(char start[], char end[], node *root)
             pop(&dirstack);
         curnode = root;
     }
-    printf("Start node not found!\n");
+    printf("Invalid starting location.\n");
     return NULL;
 }
 
