@@ -36,7 +36,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
     stack_element *dirstack = NULL;
     int branchindex;                    /* Holds end node's branch index */
     node *branchname = NULL;            /* Holds name of root node */
-	float cost_sum = 0.0;		/* Accumulates cost of path, depending on stack actions */
+	float miles_sum = 0.0;		/* Accumulates cost of path, depending on stack actions */
 
     /* Starting at the end node */
     if ((endnode = findnode(end, root, &branchindex)) ==  NULL) {
@@ -52,9 +52,9 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
     curnode = endnode;
     while (curnode->dir[FWD] != NULL) {
         push(curnode, &dirstack); 
-		cost_sum += curnode->cost;							//adds cost of current node to sum
-        if (!strcmp(start, curnode->name)) {
-            *cost = cost_sum - endnode->cost;				//DEBUG NOTES REMOVE FIXME works; same branch, start below end
+		miles_sum += curnode->cost;				
+        if (!strcmp(start, curnode->name)) {		/* Trip miles = accumulated sum - end node cost */
+            *cost = miles_sum - endnode->cost;		/* If the start is below end, and start is not the last node on branch */		
 	    return dirstack;
         }
 	curnode = curnode->dir[FWD];
@@ -62,26 +62,25 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 
     /* Checking last node in branch */
     push(curnode, &dirstack); 
-	if (!strcmp(start, curnode->name)) {				/* Cost accumulation condition: */
-        cost_sum += curnode->cost;						/* If start is below end, and start is the last node in the branch */
-		*cost = cost_sum - endnode->cost;			
-        printf("hello debug %f\n", cost_sum);	
+	if (!strcmp(start, curnode->name)) {				/* Trip miles = accumulated sum - end node cost */
+        miles_sum += curnode->cost;						/* If start is below end, and start is the last node in the branch */
+		*cost = miles_sum - endnode->cost;			
 		return dirstack;
         }
 
     /* Reversing direction, dumping stack, and returning to end node */
     while (pop(&dirstack) != NULL) {
         /* pops stack until empty (until back at end node) */
-    	cost_sum = 0.0;									/* Clear accumulated sum */	
 	}
+    miles_sum = 0.0;									/* Clear accumulated sum, start node not found on branch*/	
     curnode = endnode;
 
     /* Move towards root */
     while (curnode->dir[BACK] != root) {
-        push(curnode, &dirstack);
-		cost_sum += curnode->cost; 
+        push(curnode, &dirstack);					/*Start and end locations won't be on the same branch */
+		miles_sum += curnode->cost; 					/* Accumulate cost from end node to junction in miles_sum variable */
         if (!strcmp(start, curnode->name)) {
-	    	*cost= cost_sum - curnode->cost;
+	    	*cost= miles_sum - curnode->cost;
             return dirstack;
 		}
 		curnode = curnode->dir[BACK];
@@ -89,9 +88,9 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 
     /* Checking last node before root */
     push(curnode, &dirstack); 
-	cost_sum += curnode->cost; 
+	miles_sum += curnode->cost; 
 	if (!strcmp(start, curnode->name)) {
-        *cost = cost_sum - curnode->cost;
+        *cost = miles_sum - curnode->cost;
         return dirstack;
     }
 
@@ -112,15 +111,15 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
             push(curnode, &dirstack); 
 			branch_sum += curnode->cost;				//FIXME test
             if (!strcmp(start, curnode->name)){
-				*cost= cost_sum + branch_sum;
+				*cost= miles_sum + branch_sum;
                 return dirstack;
             }
             curnode = curnode->dir[FWD];
         }
         push(curnode, &dirstack);
-		cost_sum += curnode->cost; 
+		miles_sum += curnode->cost; 
         if (!strcmp(start, curnode->name)) {
-	    	*cost= cost_sum + branch_sum;
+	    	*cost= miles_sum + branch_sum;
             return dirstack;
         }
         for (j; j >= 0; --j)
