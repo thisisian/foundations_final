@@ -14,7 +14,7 @@
 #include "header.h"
 
 /*
- * Get path - Find path between two nodes. Returns a stack of city names
+ * Get path - Find path between two nodes. Returns a stack of city namesd
  * along path or NULL if there's an error.
  *
  * A special node 'branchname' is loaded into the stack in the case
@@ -96,11 +96,12 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
     }
 
     /* Getting a name for root node */
-    getbranchname(branchindex, s);
-    branchname = createnode();
+    getbranchname(branchindex, s);						//prints highway name based on int from pointer array
+    branchname = createnode();							//int number of branch from pointer array
     strcpy(branchname->name, s);
     push(branchname, &dirstack);
 
+	float branch_sum = 0.0;
     /* Do exhaustive search from root */
     for (i = 0; i < NUMDEG; ++i) {
         if (i == branchindex)          /* Skip previously searched direction */
@@ -109,21 +110,24 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
             continue;
         for (j = 0; curnode->dir[FWD] != NULL; ++j) {
             push(curnode, &dirstack); 
+			branch_sum += curnode->cost;				//FIXME test
             if (!strcmp(start, curnode->name)){
-		*cost= endnode->cost + curnode->cost;
+				*cost= cost_sum + branch_sum;
                 return dirstack;
             }
             curnode = curnode->dir[FWD];
         }
-        push(curnode, &dirstack); 
+        push(curnode, &dirstack);
+		cost_sum += curnode->cost; 
         if (!strcmp(start, curnode->name)) {
-	    *cost= endnode->cost + curnode->cost;
+	    	*cost= cost_sum + branch_sum;
             return dirstack;
         }
         for (j; j >= 0; --j)
             pop(&dirstack);
-        curnode = root;
-    }
+        	curnode = root;
+    	}
+		branch_sum = 0.0;
     printf("Start node not found!\n");
     return NULL;
 }
