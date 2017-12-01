@@ -40,7 +40,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 
     /* Starting at the end node */
     if ((endnode = findnode(end, root, &branchindex)) ==  NULL) {
-        printf("Error: End node not found!\n");
+        printf("Invalid destination.\n");
         return NULL;
     }
 

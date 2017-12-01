@@ -44,13 +44,13 @@ int main(void)
         getstr(start, MAXSTR);
 	formatinput(start, MAXSTR);
         if (findnode(start, root, NULL) == NULL) {
-            printf("Invalid starting location\n");
+            printf("Invalid starting location.\n");
             continue;
         }
         printf("Enter ending location:\n");
         getstr(end, MAXSTR);
 	if (strcmp(start, end) == 0) 
-		printf("You are already at your destination.\n");
+		printf("Starting location and destination are the same.\n");
 	formatinput(end, MAXSTR);
 	if ((pathstack = getpath(start, end, root, &cost)) == NULL)
             continue;
