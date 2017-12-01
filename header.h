@@ -21,7 +21,7 @@
 #define DEBUG 0  	    /* Debugging mode: 1 to enable, 0 to disable */
 
 
-/* Typedefs */
+/** Typedefs **/
 typedef struct node {
     char name[MAXSTR];
     struct node *dir[NUMDEG];

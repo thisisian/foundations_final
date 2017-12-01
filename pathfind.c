@@ -36,7 +36,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
     stack_element *dirstack = NULL;
     int branchindex;                    /* Holds end node's branch index */
     node *branchname = NULL;            /* Holds name of root node */
-	float cost_sum = 0.0;				/* Accumulates cost of path, depending on stack actions */
+	float cost_sum = 0.0;		/* Accumulates cost of path, depending on stack actions */
 
     /* Starting at the end node */
     if ((endnode = findnode(end, root, &branchindex)) ==  NULL) {
