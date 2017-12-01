@@ -67,7 +67,6 @@ void formatinput(char s[], int maxlen) {
     for (; isspace(s[writeindex]); --writeindex) 
         ;
     s[++writeindex] = '\0';
-    printf("[%s]\n", s);
 }
 
 void printmap(node *root)
