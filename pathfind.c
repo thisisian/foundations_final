@@ -77,8 +77,8 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 
     /* Move towards root */
     while (curnode->dir[BACK] != root) {
-        push(curnode, &dirstack);					/*Start and end locations won't be on the same branch */
-		miles_sum += curnode->cost; 					/* Accumulate cost from end node to junction in miles_sum variable */
+        push(curnode, &dirstack);						/* If start location is closer to junction than end location */	
+		miles_sum += curnode->cost; 					/* accumulate cost from end node to junction in miles_sum variable */
         if (!strcmp(start, curnode->name)) {
 	    	*cost= miles_sum - curnode->cost;
             return dirstack;
@@ -88,20 +88,21 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 
     /* Checking last node before root */
     push(curnode, &dirstack); 
-	miles_sum += curnode->cost; 
-	if (!strcmp(start, curnode->name)) {
-        *cost = miles_sum - curnode->cost;
+	miles_sum += curnode->cost; 						/*If start location is on node before junction (above end location) */
+	if (!strcmp(start, curnode->name)) {				/* accumulate cost from end node to junction in miles_sum variable */
+        *cost = miles_sum - curnode->cost;			
         return dirstack;
     }
 
     /* Getting a name for root node */
-    getbranchname(branchindex, s);						//prints highway name based on int from pointer array
-    branchname = createnode();							//int number of branch from pointer array
+    getbranchname(branchindex, s);						/* getbranchname() prints highway name based on int from pointer array */
+    branchname = createnode();							/* branchname var stores int number of branch from pointer array */
     strcpy(branchname->name, s);
     push(branchname, &dirstack);
 
-	float branch_sum = 0.0;
-    /* Do exhaustive search from root */
+	float branch_sum = 0.0;								/* Var used to accumulate miles sum for branch, if end and start aren't on same branch */
+    float const end_to_junction  = miles_sum;		/* Prevents branch sum variable from changing if start and end are on different branches */
+	/* Do exhaustive search from root */
     for (i = 0; i < NUMDEG; ++i) {
         if (i == branchindex)          /* Skip previously searched direction */
             continue;
@@ -109,24 +110,26 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
             continue;
         for (j = 0; curnode->dir[FWD] != NULL; ++j) {
             push(curnode, &dirstack); 
-			branch_sum += curnode->cost;				//FIXME test
+			branch_sum += curnode->cost;			
             if (!strcmp(start, curnode->name)){
-				*cost= miles_sum + branch_sum;
-                return dirstack;
+				*cost= end_to_junction + branch_sum; 				
+				return dirstack;
             }
             curnode = curnode->dir[FWD];
         }
-        push(curnode, &dirstack);
-		miles_sum += curnode->cost; 
-        if (!strcmp(start, curnode->name)) {
-	    	*cost= miles_sum + branch_sum;
+        push(curnode, &dirstack);		/* Push final node in branch */
+		branch_sum += curnode->cost;			
+        
+		if (!strcmp(start, curnode->name)) {
+	    	*cost= end_to_junction + branch_sum;
             return dirstack;
         }
+	
+		branch_sum = 0.0;					/* If start node isn't found on branch, reset branch_sum to 0 */
         for (j; j >= 0; --j)
             pop(&dirstack);
         	curnode = root;
     	}
-		branch_sum = 0.0;
     printf("Start node not found!\n");
     return NULL;
 }
