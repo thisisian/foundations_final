@@ -21,7 +21,7 @@ node *createnode()
     node *p = malloc(sizeof(node));
     p->name[0] = '\0';
     for (i = 0; i < NUMDEG; ++i)
-        p->dir[i] = NULL;
+	p->dir[i] = NULL;
     return p;
 }
 
@@ -30,19 +30,16 @@ node *createnode()
  * Map file contains city names separated by commas. Branches are terminated
  * by END
  */
-node *loadmap(char file[]) {
+node *loadmap(char file[])
+{
     int i;
     char s[MAXSTR];
     node *cur = NULL;
     node *new = NULL;
     node *root = NULL;
-    float cost=0;
-
-#if DEBUG
-    printf("---Loading Map---\n");
-#endif
-
-    FILE *mfile = fopen(file,"r");
+    int forward;            /* Holds node index for forward */
+    float cost = 0.0;
+    FILE *mfile = fopen(file, "r");
 
     /* Creating root node */
     cur = root = createnode();
@@ -50,53 +47,31 @@ node *loadmap(char file[]) {
 
     /* Loading in branches */
     for (i = 0; i < NUMDEG; ++i) {
-        #if DEBUG
-        printf("Directon %d: ", i);
-        #endif
-
-        /* Junction to first node on branch i */
-        getentry(mfile, s, &cost);
-        if (!strcmp(s, "END")) {
-            #if DEBUG
-            printf(" - END\n");
-            #endif
-            continue;
-        }
-        new = createnode();
-        strcpy(new->name, s);
-	new->cost=cost;
-        root->dir[i] = new;
-        #if DEBUG
-        printf(" - %s, cost: %f\n", new->name,
-		new->cost);
-        #endif
-        new->dir[BACK] = root;
-        cur = new;
-
-        /* Center nodes */
-        getentry(mfile, s, &cost);
-        while (strcmp(s, "END")){
-            new = createnode();
-            strcpy(new->name, s);
-            new->cost=cost;
-            cur->dir[FWD] = new;
+        cur = root;
+        forward = i;
+	while ((new = loadcity(mfile)) != NULL) {
+            cur->dir[forward] = new;
             new->dir[BACK] = cur;
             cur = new;
-            #if DEBUG
-	    printf("name: %s, cost:%f\n",new->name,
-		new->cost);
-	    #endif
-	    getentry(mfile, s, &cost); /* Read next entry */
+            cur->dir[FWD] = NULL;
+            forward = FWD;
         }
-        /* Last node */
-        cur->dir[FWD] = NULL;
-        #if DEBUG
-        printf(" - END\n");
-        #endif
-        }
-        #if DEBUG
-        printf("-----------------\n\n");
-        #endif
-        fclose(mfile);
-        return root;
+    }
+    fclose(mfile);
+    return root;
+}
+
+/* Loads node name and cost. Returns NULL if END occurs */
+node *loadcity(FILE *mfile)
+{
+    char s[MAXSTR];
+    node *citynode = NULL;
+
+    getentry(mfile, s);
+    if (!strcmp(s, "END"))
+        return NULL;
+    citynode = createnode();
+    citynode->cost = atof(s);
+    getentry(mfile, s);
+    strcpy(citynode->name, s);
 }

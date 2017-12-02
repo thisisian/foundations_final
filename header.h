@@ -44,15 +44,16 @@ void printstack(stack_element * stack, char end[], float cost);
 /* Map-generation functions - mapgen.c */
 node *createnode();
 node *loadmap(char file[]);
-stack_element *getpath(char start[], char end[], node *junc, float *cost);
+node *loadcity(FILE *mfile);
 
 /* Path finding functions - pathfind.c */
-void getstr(char s[], int maxlen);
+stack_element *getpath(char start[], char end[], node *junc, float *cost);
 node *findnode(char s[], node *junc, int *dir);
 void getbranchname(int dir, char s[]);
 
 /* Utility functions - util.c */
+void getstr(char s[], int maxlen);
 void formatinput(char s[], int maxlen);
-int getentry(FILE *mfile, char s[],float *cost);
+int getentry(FILE *mfile, char s[]);
 void debug_traversal(void);
 void printmap(node *root);
