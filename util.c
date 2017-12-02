@@ -69,7 +69,7 @@ void formatinput(char s[], int maxlen)
     s[++writeindex] = '\0';
 }
 
-void printmap(node * root)
+void printmap(node *root)
 {
     int i;
     char s[MAXSTR];

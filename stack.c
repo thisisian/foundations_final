@@ -24,9 +24,6 @@ node *pop(stack_element ** stackaddr)
     if (stack != NULL) {
 	p = stack->prev;
 	pnode = stack->payload;
-#if DEBUG
-	printf("Pop: %s\n", pnode->name);
-#endif
 	free(stack);
 	*stackaddr = p;
     }
@@ -40,9 +37,6 @@ void push(node * pnode, stack_element ** stackaddr)
     stack_element *p = malloc(sizeof(stack_element));
     p->prev = NULL;
     p->payload = pnode;
-#if DEBUG
-    printf("Push: %s\n", p->payload->name);
-#endif
     if (stack != NULL)
 	p->prev = stack;
     *stackaddr = p;
@@ -67,9 +61,9 @@ void printstack(stack_element * stack, char end[], float cost)
 	printf("%d. %s\n", i, a.name);
     }
     node cur = *pop(&stack);
-    printf("%d: %s\nTotal Miles: %.1f\n", i, cur.name, cost);
+    printf("%d: %s\nTotal Miles: %.1f\n\n", i, cur.name, cost);
     dollar_cost = (cost * 2.88) / 20;
     printf
-	("\nAssuming gas costs $2.88 per gallon, and 20 miles/gallon, your trip will cost $%.2f.\n",
-	 dollar_cost);
+	("Assuming gas costs $2.88 per gallon, and 20 miles/gallon" 
+         " your trip will cost $%.2f.\n", dollar_cost);
 }

@@ -21,15 +21,15 @@
  * are added to a stack. The stack is then printed, giving directions.
  *
  * files: functions.h, main.c, mapgen.c, pathfind.c, stack.c, util.c
- * (compile all above files to run)
+ * To compile run 'gcc *.c' 
  **************************************************************************/
 
-#include "header.h"		/* Header file, store in local directory */
+#include "header.h"
 
 int main(void)
 {
     int i;
-    node *root = loadmap("data");	/* Load cities into map from data file */
+    node *root = loadmap("data"); /* Load cities into map from data file */
     char s[MAXSTR];
 
     stack_element *pathstack = NULL;
