@@ -62,7 +62,7 @@ int main(void)
 	if ((pathstack = getpath(start, end, root, &cost)) == NULL)
 	    continue;
 	printf("-----Directions-----\n%s to %s:\n", start, end);
-	printstack(pathstack, end, cost);
+	printPath(pathstack, end, cost);
 	printf("Type \"exit\" to quit, or any key to continue:\n");
 	getstr(input);
 	formatinput(input, MAXSTR);
