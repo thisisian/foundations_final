@@ -56,6 +56,8 @@ node *peek(stack_element * stack)
 }
 
 /* Pop all elements from stack and print with numbered lines. */
+/* Total cost of trip is calculated and printed */
+
 void printstack(stack_element * stack, char end[], float cost)
 {
     int i;

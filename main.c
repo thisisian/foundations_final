@@ -19,7 +19,7 @@
  * and directs the user to the best route between the two cities.
  *
  * The map structure is generated from an external file (see mapgen.c).
- * The intersection, of Highway 26 and I-5 is referred to as the root.
+ * The intersection of Highway 26 and I-5 is referred to as the root.
  * There are braches extending from the root with nodes indicating
  * individual cities. A search is performed (see pathfind.c) and directions
  * are added to a stack. The stack is then printed, giving directions.

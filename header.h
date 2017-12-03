@@ -1,3 +1,22 @@
+/**************************************************************************
+ *
+ * New Beginnings Foundations Final
+ *
+ * Authors:
+ * Anna Hansen
+ * Logan Ballard
+ * Boris Popadiuk
+ * Jesse Zhu
+ * Gavin Megson
+ * Lynnae Griffiths
+ * Matt Krepp
+ * Ian Winter
+ *
+ * header.h - Header file. Contains includes, defines, typedefs and function
+ * prototypes.
+ *
+ **************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -22,11 +22,11 @@
 node *createnode()
 {
     int i;
-    node *p = malloc(sizeof(node));
-    p->name[0] = '\0';
+    node *new = malloc(sizeof(node));
+    new->name[0] = '\0';
     for (i = 0; i < NUMDEG; ++i)
-	p->branch[i] = NULL;
-    return p;
+	new->branch[i] = NULL;
+    return new;
 }
 
 /*
@@ -37,11 +37,11 @@ node *createnode()
 node *loadmap(char file[])
 {
     int i;
-    char s[MAXSTR];
+    char s[MAXSTR];	    /* Holds string for manipulation */
     node *cur = NULL;
     node *new = NULL;
     node *root = NULL;
-    int forward;            /* Holds node index for forward */
+    int forward;            /* Holds node index pointing forward */
     float cost = 0.0;
     FILE *mfile = fopen(file, "r");
 
