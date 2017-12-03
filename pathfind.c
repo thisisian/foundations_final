@@ -27,7 +27,7 @@
  * branch in which the end node exists and is used for displaying
  * the direction chosen at the root.
  */
-stack_element *getpath(char start[], char end[], node *root, float *cost)
+stack_element *getpath(char start[], char end[], node *rootNode, float *cost)
 {
     /*
      * getpath starts at the ending node via findnode function called
@@ -35,7 +35,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
      * then back up to the junction.
      */
     int i, j;
-    char s[MAXSTR];
+    char utilString[MAXSTR];		// utility string to hold city name
     stack_element *pathstack = NULL;	/* Create stack */
     node *curnode = NULL; 		/* Current node */
     node *endnode = NULL;               /* Points to end node in search */
@@ -44,7 +44,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
     float miles_sum = 0.0;	        /* Running sum of miles traveled*/
 
     /* Starting at the end node */
-    endnode = findnode(end, root, &branchindex);
+    endnode = findnode(end, rootNode, &branchindex);
     if (endnode == NULL)
 	return NULL;
 
@@ -83,7 +83,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 	    *cost = miles_sum - curnode->cost;
 	    return pathstack; 		/* Return stack */
 	}
-        if (curnode->branch[BACK] == root)
+        if (curnode->branch[BACK] == rootNode)
             break;
         else
             curnode = curnode->branch[BACK];
@@ -91,8 +91,8 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 
     /* Getting a n node */
     exitbranchname = createnode();
-    getbranchname(branchindex, s);
-    strcpy(exitbranchname->name, s);
+    getbranchname(branchindex, utilString);
+    strcpy(exitbranchname->name, utilString);
     push(exitbranchname, &pathstack);
 
     /* Do exhaustive search from root */
@@ -100,7 +100,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
     for (i = 0; i < NUMDEG; ++i) {
 	if (i == branchindex)	      /* Skip previously searched direction */
 	    continue;
-	if ((curnode = root->branch[i]) == NULL) /* direction points to NULL */
+	if ((curnode = rootNode->branch[i]) == NULL) /* direction points to NULL */
 	    continue;
 	for (j = 0; ; ++j) {
 	    push(curnode, &pathstack);
@@ -128,26 +128,26 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
  * branch index is stored in branchindex and a pointer to the node is
  * returned. Otherwise, branchindex is invalid and function returns NULL.
  */
-node *findnode(char s[], node * root, int *branch)
+node *findnode(char s[], node * rootNode, int *branch)
 {
     int i, j;
-    node *cur = NULL;
+    node *curNode = NULL;
 
     for (i = 0; i < NUMDEG; ++i) {
-	if ((cur = root->branch[i]) == NULL)	/* direction points to NULL */
+	if ((curNode = rootNode->branch[i]) == NULL)	/* direction points to NULL */
 	    continue;
 	if (branch != NULL)
 	    *branch = i;
-	while (cur->branch[FWD] != NULL) {
-	    if (!strcmp(cur->name, s)) {
-		return cur;
+	while (curNode->branch[FWD] != NULL) {
+	    if (!strcmp(curNode->name, s)) {
+		return curNode;
 	    }
-	    cur = cur->branch[FWD];
+	    curNode = curNode->branch[FWD];
 	}
-	if (!strcmp(cur->name, s)) {
-	    return cur;
+	if (!strcmp(curNode->name, s)) {
+	    return curNode;
 	}
-	cur = root;
+	curNode = rootNode;
     }
     return NULL;
 }
@@ -155,16 +155,16 @@ node *findnode(char s[], node * root, int *branch)
 /*
  * Get branch name - Input branch index and save name into s.
  */
-void getbranchname(int branchindex, char s[])
+void getbranchname(int branchindex, char branchName[])
 {
     if (branchindex == 0)
-	strcpy(s, "Highway 26 East");
+	strcpy(branchName, "Highway 26 East");
     else if (branchindex == 1)
-	strcpy(s, "Highway 26 West");
+	strcpy(branchName, "Highway 26 West");
     else if (branchindex == 2)
-	strcpy(s, "I5 North");
+	strcpy(branchName, "I5 North");
     else if (branchindex == 3)
-	strcpy(s, "I5 South");
+	strcpy(branchName, "I5 South");
     else
         printf("Invalid branch index");
 }

@@ -95,24 +95,24 @@ void printPath(stack_element * stack, char end[], float cost)
 }
 
 
-void printmap(node *root)
+void printmap(node *rootNode)
 {
     int i;
     char s[MAXSTR];
-    node *cur;
+    node *curNode;
 
     printf("--- Map ---\n");
     for (i = 0; i < NUMDEG; ++i) {
-	if ((cur = root->branch[i]) == NULL)	/* branch points to NULL */
+	if ((curNode = rootNode->branch[i]) == NULL)	/* branch points to NULL */
 	    continue;
 	getbranchname(i, s);
 	printf("%s: ", s);
-	while (cur->branch[FWD] != NULL) {
-	    printf("%s->", cur->name);
-	    cur = cur->branch[FWD];
+	while (curNode->branch[FWD] != NULL) {
+	    printf("%s->", curNode->name);
+	    curNode = curNode->branch[FWD];
 	}
-	printf("%s\n", cur->name);
-	cur = root;
+	printf("%s\n", curNode->name);
+	curNode = rootNode;
     }
     printf("-----------\n\n");
 }

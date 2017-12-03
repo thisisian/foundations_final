@@ -33,39 +33,39 @@
 int main(void)
 {
     int i;
-    char input[MAXSTR];
-    node *root = loadmap("data"); /* Load cities into map from data file */
+    char userInput[MAXSTR];
+    node *rootNode = loadmap("data"); /* Load cities into map from data file */
 
     stack_element *pathstack = NULL;
     char start[MAXSTR];		/* Name of start city */
     char end[MAXSTR];		/* Name of end city */
     float cost = 0.0;		/* Cost of trip */
 
-    while (strcmp(input, "Exit") != 0) {
-	printmap(root);
+    while (strcmp(userInput, "Exit") != 0) {
+	printmap(rootNode);
 	printf("Enter starting location:\n");
 	getstr(start);
 	formatinput(start, MAXSTR);
-	if (findnode(start, root, NULL) == NULL) {
+	if (findnode(start, rootNode, NULL) == NULL) {
 	    printf("Invalid starting location.\n");
 	    continue;
 	}
 	printf("Enter ending location:\n");
 	getstr(end);
 	formatinput(end, MAXSTR);
-	if (findnode(end, root, NULL) == NULL) {
+	if (findnode(end, rootNode, NULL) == NULL) {
 	    printf("Invalid ending location.\n");
 	    continue;
 	}
 	if (strcmp(start, end) == 0)
 	    printf("Starting location and destination are the same.\n");
-	if ((pathstack = getpath(start, end, root, &cost)) == NULL)
+	if ((pathstack = getpath(start, end, rootNode, &cost)) == NULL)
 	    continue;
 	printf("-----Directions-----\n%s to %s:\n", start, end);
 	printPath(pathstack, end, cost);
 	printf("Type \"exit\" to quit, or any key to continue:\n");
-	getstr(input);
-	formatinput(input, MAXSTR);
+	getstr(userInput);
+	formatinput(userInput, MAXSTR);
     }
     return 0;
 }
