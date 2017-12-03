@@ -36,8 +36,8 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
      */
     int i, j;
     char s[MAXSTR];
-    stack_element *dirstack = NULL;	/* Stack with directions */
-    node *curnode = NULL; 		/* Current node */G
+    stack_element *dirstack = NULL;	/* Create stack */
+    node *curnode = NULL; 		/* Current node */
     node *endnode = NULL;	  /* Points to end node in search */
     int branchindex;	       	  /* End node's branch index */
     node *exitbranchname = NULL;  /* Name of exit node branch */
