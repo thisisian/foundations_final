@@ -3,6 +3,10 @@
  * New Beginnings Foundations Final
  *
  * Authors:
+ * Anna Hansen
+ * Logan Ballard
+ * Boris Popadiuk
+ * Jesse Zhu
  * Gavin Megson
  * Lynnae Griffiths
  * Matt Krepp
