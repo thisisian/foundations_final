@@ -24,7 +24,7 @@
 /** Typedefs **/
 typedef struct node {
     char name[MAXSTR];
-    struct node *dir[NUMDEG];
+    struct node *branch[NUMDEG];
     float cost;
 } node;
 
@@ -48,12 +48,11 @@ node *loadcity(FILE *mfile);
 
 /* Path finding functions - pathfind.c */
 stack_element *getpath(char start[], char end[], node *junc, float *cost);
-node *findnode(char s[], node *junc, int *dir);
+node *findnode(char s[], node *junc, int *branchindex);
 void getbranchname(int dir, char s[]);
 
 /* Utility functions - util.c */
-void getstr(char s[], int maxlen);
+void getstr(char s[]);
 void formatinput(char s[], int maxlen);
 int getentry(FILE *mfile, char s[]);
-void debug_traversal(void);
 void printmap(node *root);

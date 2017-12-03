@@ -3,10 +3,14 @@
  * New Beginnings Foundations Final
  *
  * Authors:
- * Gavin Megson
+ * Logan Ballard
  * Lynnae Griffiths
+ * Anna Hansen
  * Matt Krepp
+ * Gavin Megson
+ * Boris Popadiuk
  * Ian Winter
+ * Jesse Zhu
  *
  * util.c - Utility functions.
  *
@@ -15,16 +19,16 @@
 #include "header.h"
 
 /* Copies user input from stdin of maximum length maxlen into s */
-void getstr(char s[], int maxlen)
+void getstr(char s[])
 {
     int len;
 
-    fgets(s, maxlen, stdin);
+    fgets(s, MAXSTR, stdin);
     len = strlen(s);
     if (len == 0)
-	s[0] = '\0';
+        s[0] = '\0';
     else if (len > 0 && (s[len - 1] == '\n'))
-	s[len - 1] = '\0';
+       s[len - 1] = '\0';
 }
 
 /* Stores a cell from a csv file into s */
@@ -51,7 +55,8 @@ void formatinput(char s[], int maxlen)
 
     /* skip leading whitespace */
     for (readindex = 0; readindex < maxlen && isspace(s[readindex]);
-	 ++readindex);
+	 ++readindex)
+            ;
     for (writeindex = 0; (c = s[readindex]) != '\0' && readindex < maxlen;
 	 ++readindex, ++writeindex) {
 	if (isspace(c))
@@ -65,7 +70,8 @@ void formatinput(char s[], int maxlen)
     }
     --writeindex;
     /* remove trailing whitespace */
-    for (; isspace(s[writeindex]); --writeindex);
+    for (; isspace(s[writeindex]); --writeindex)
+        ;
     s[++writeindex] = '\0';
 }
 
@@ -77,13 +83,13 @@ void printmap(node *root)
 
     printf("--- Map ---\n");
     for (i = 0; i < NUMDEG; ++i) {
-	if ((cur = root->dir[i]) == NULL)	/* direction points to NULL */
+	if ((cur = root->branch[i]) == NULL)	/* branch points to NULL */
 	    continue;
 	getbranchname(i, s);
 	printf("%s:", s);
-	while (cur->dir[FWD] != NULL) {
+	while (cur->branch[FWD] != NULL) {
 	    printf("%s->", cur->name);
-	    cur = cur->dir[FWD];
+	    cur = cur->branch[FWD];
 	}
 	printf("%s\n", cur->name);
 	cur = root;

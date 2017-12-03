@@ -3,10 +3,14 @@
  * New Beginnings Foundations Final
  *
  * Authors:
- * Gavin Megson
+ * Logan Ballard
  * Lynnae Griffiths
+ * Anna Hansen
  * Matt Krepp
+ * Gavin Megson
+ * Boris Popadiuk
  * Ian Winter
+ * Jesse Zhu
  *
  * pathfind.c - Functions relating to path finding.
  *
@@ -41,10 +45,8 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 
     /* Starting at the end node */
     endnode = findnode(end, root, &branchindex);
-    if (endnode == NULL) {
-	printf("Invalid destination.\n");
+    if (endnode == NULL)
 	return NULL;
-    }
 
     /* Start and end are the same */
     if (!strcmp(start, endnode->name)) {
@@ -61,10 +63,10 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 	    *cost = miles_sum - endnode->cost;
 	    return dirstack;
 	}
-        if (curnode->dir[FWD] == NULL) 
+        if (curnode->branch[FWD] == NULL) 
             break;
         else 
-            curnode = curnode->dir[FWD];
+            curnode = curnode->branch[FWD];
     }
 
     /* Clear stack and sum; return to end node */
@@ -81,10 +83,10 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 	    *cost = miles_sum - curnode->cost;
 	    return dirstack;
 	}
-        if (curnode->dir[BACK] == root)
+        if (curnode->branch[BACK] == root)
             break;
         else
-            curnode = curnode->dir[BACK];
+            curnode = curnode->branch[BACK];
     }
 
     /* Getting a n node */
@@ -98,7 +100,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
     for (i = 0; i < NUMDEG; ++i) {
 	if (i == branchindex)	      /* Skip previously searched direction */
 	    continue;
-	if ((curnode = root->dir[i]) == NULL)	/* direction points to NULL */
+	if ((curnode = root->branch[i]) == NULL) /* direction points to NULL */
 	    continue;
 	for (j = 0; ; ++j) {
 	    push(curnode, &dirstack);
@@ -107,10 +109,10 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 		*cost = miles_sum;
 		return dirstack;
 	    }
-            if (curnode->dir[FWD] == NULL)
+            if (curnode->branch[FWD] == NULL)
                 break;
             else
-                curnode = curnode->dir[FWD];
+                curnode = curnode->branch[FWD];
 	}
         /* Start node wasn't on this branch, reset stack and sum */
 	miles_sum = end_to_junction;
@@ -123,8 +125,8 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 
 /*
  * Find node - Brute force search for node pointer with name s[]. If found,
- * branch index is stored in dir and a pointer to the node is returned.
- * Otherwise, integer dir is invalid and function returns NULL.
+ * branch index is stored in branchindex and a pointer to the node is
+ * returned. Otherwise, branchindex is invalid and function returns NULL.
  */
 node *findnode(char s[], node * root, int *branch)
 {
@@ -132,15 +134,15 @@ node *findnode(char s[], node * root, int *branch)
     node *cur = NULL;
 
     for (i = 0; i < NUMDEG; ++i) {
-	if ((cur = root->dir[i]) == NULL)	/* direction points to NULL */
+	if ((cur = root->branch[i]) == NULL)	/* direction points to NULL */
 	    continue;
 	if (branch != NULL)
 	    *branch = i;
-	while (cur->dir[FWD] != NULL) {
+	while (cur->branch[FWD] != NULL) {
 	    if (!strcmp(cur->name, s)) {
 		return cur;
 	    }
-	    cur = cur->dir[FWD];
+	    cur = cur->branch[FWD];
 	}
 	if (!strcmp(cur->name, s)) {
 	    return cur;

@@ -3,10 +3,14 @@
  * New Beginnings Foundations Final
  *
  * Authors:
- * Gavin Megson
+ * Logan Ballard
  * Lynnae Griffiths
+ * Anna Hansen
  * Matt Krepp
+ * Gavin Megson
+ * Boris Popadiuk
  * Ian Winter
+ * Jesse Zhu
  *
  * mapgen.c - Functions relating to map generation.
  *
@@ -21,7 +25,7 @@ node *createnode()
     node *p = malloc(sizeof(node));
     p->name[0] = '\0';
     for (i = 0; i < NUMDEG; ++i)
-	p->dir[i] = NULL;
+	p->branch[i] = NULL;
     return p;
 }
 
@@ -50,10 +54,10 @@ node *loadmap(char file[])
         cur = root;
         forward = i;
 	while ((new = loadcity(mfile)) != NULL) {
-            cur->dir[forward] = new;
-            new->dir[BACK] = cur;
+            cur->branch[forward] = new;
+            new->branch[BACK] = cur;
             cur = new;
-            cur->dir[FWD] = NULL;
+            cur->branch[FWD] = NULL;
             forward = FWD;
         }
     }

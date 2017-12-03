@@ -3,10 +3,14 @@
  * New Beginnings Foundations Final
  *
  * Authors:
- * Gavin Megson
+ * Logan Ballard
  * Lynnae Griffiths
+ * Anna Hansen
  * Matt Krepp
+ * Gavin Megson
+ * Boris Popadiuk
  * Ian Winter
+ * Jesse Zhu
  *
  * stack.c - Functions relating to stack management.
  *
@@ -58,10 +62,10 @@ void printstack(stack_element * stack, char end[], float cost)
     float dollar_cost;
     for (i = 1; strcmp(stack->payload->name, end) != 0; ++i) {
 	node a = *pop(&stack);
-	printf("%d. %s\n", i, a.name);
+	printf("%2d. %s\n", i, a.name);
     }
     node cur = *pop(&stack);
-    printf("%d: %s\nTotal Miles: %.1f\n\n", i, cur.name, cost);
+    printf("%2d. %s\nTotal Miles: %.1f\n\n", i, cur.name, cost);
     dollar_cost = (cost * 2.88) / 20;
     printf
 	("Assuming gas costs $2.88 per gallon, and 20 miles/gallon" 
