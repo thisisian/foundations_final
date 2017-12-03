@@ -19,7 +19,7 @@
  *
  * The map structure is generated from an external file (see mapgen.c).
  * The intersection, of highway 26 and I-5 is referred to as the root.
- * There are braches extending from the root with nodes indicating
+ * There are branches extending from the root with nodes indicating
  * individual cities. A search is performed (see pathfind.c) and directions
  * are added to a stack. The stack is then printed, giving directions.
  *
@@ -33,7 +33,7 @@ int main(void)
 {
     int i;
     node *root = loadmap("data"); /* Load cities into map from data file */
-    char s[MAXSTR];
+    char s[MAXSTR];			/* Char array for string storage */
 
     stack_element *pathstack = NULL;
     char start[MAXSTR];		/* Name of start city */

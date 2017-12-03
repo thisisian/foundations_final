@@ -36,8 +36,8 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
      */
     int i, j;
     char s[MAXSTR];
-    stack_element *dirstack = NULL;
-    node *curnode = NULL;
+    stack_element *dirstack = NULL;	/* Stack with directions */
+    node *curnode = NULL; 		/* Current node */G
     node *endnode = NULL;	  /* Points to end node in search */
     int branchindex;	       	  /* End node's branch index */
     node *exitbranchname = NULL;  /* Name of exit node branch */
@@ -53,7 +53,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
     /* Start and end are the same */
     if (!strcmp(start, endnode->name)) {
 	*cost = 0.0;
-	return dirstack;
+	return dirstack;	/* Return stack */
     }
 
     /* Moving towards end of branch */
@@ -63,7 +63,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 	miles_sum += curnode->cost;
 	if (!strcmp(start, curnode->name)) {     /* Found start node */
 	    *cost = miles_sum - endnode->cost;
-	    return dirstack;
+	    return dirstack;	/* Return stack */
 	}
         if (curnode->dir[FWD] == NULL) 
             break;
@@ -83,7 +83,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 	miles_sum += curnode->cost;
 	if (!strcmp(start, curnode->name)) {
 	    *cost = miles_sum - curnode->cost;
-	    return dirstack;
+	    return dirstack; 		/* Return stack */
 	}
         if (curnode->dir[BACK] == root)
             break;
@@ -109,7 +109,7 @@ stack_element *getpath(char start[], char end[], node *root, float *cost)
 	    miles_sum += curnode->cost;
 	    if (!strcmp(start, curnode->name)) {
 		*cost = miles_sum;
-		return dirstack;
+		return dirstack; 	/* Return stack */
 	    }
             if (curnode->dir[FWD] == NULL)
                 break;
