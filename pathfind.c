@@ -45,46 +45,59 @@ stack_element *getpath(char start[], char end[], node *root)
     }
     if (!strcmp(start, curnode->name))
         return dirstack;
+    
+    if (!strcmp(end, root->name))
+    /* If the root is the end node, the following do not have to be done: */
+    {
+        
+        /* Moving towards end of branch */
+        while (curnode->dir[FWD] != NULL) {
+            push(curnode, &dirstack);
+            if (!strcmp(start, curnode->name))
+                return dirstack;
+            curnode = curnode->dir[FWD];
+        }
 
-    /* Moving towards end of branch */
-    while (curnode->dir[FWD] != NULL) {
+        /* Checking last node in branch */
         push(curnode, &dirstack);
         if (!strcmp(start, curnode->name))
             return dirstack;
-        curnode = curnode->dir[FWD];
-    }
+            // dev note: print something here?
 
-    /* Checking last node in branch */
-    push(curnode, &dirstack);
-    if (!strcmp(start, curnode->name))
-        return dirstack;
-        // dev note: print something here?
+        /* Reversing direction, dumping stack, and returning to end node */
+        while (pop(&dirstack) != NULL) 
+            /* pops stack until empty (until back at end node) */
+            ;
+        curnode = endnode;
 
-    /* Reversing direction, dumping stack, and returning to end node */
-    while (pop(&dirstack) != NULL) 
-        /* pops stack until empty (until back at end node) */
-        ;
-    curnode = endnode;
+        /* Move towards root */
+        while (curnode->dir[BACK] != root) {
+            push(curnode, &dirstack);
+            if (!strcmp(start, curnode->name))
+                return dirstack;
+            curnode = curnode->dir[BACK];
+        }
 
-    /* Move towards root */
-    while (curnode->dir[BACK] != root) {
+        /* Checking last node before root */
         push(curnode, &dirstack);
         if (!strcmp(start, curnode->name))
             return dirstack;
-        curnode = curnode->dir[BACK];
+        
+        /* checking if root is start*/
+        if (strcmp(start, root->name)) {
+            push(root, &dirstack);
+            return dirstack;
+        }
+
+        /* Getting a name for root node */
+        getbranchname(branchindex, s);
+        branchname = createnode();
+        strcpy(branchname->name, s);
+        push(branchname, &dirstack);
+
     }
-
-    /* Checking last node before root */
-    push(curnode, &dirstack);
-    if (!strcmp(start, curnode->name))
-        return dirstack;
-
-    /* Getting a name for root node */
-    getbranchname(branchindex, s);
-    branchname = createnode();
-    strcpy(branchname->name, s);
-    push(branchname, &dirstack);
-
+    ////////////////
+    
     /* Do exhaustive search from root */
     for (i = 0; i < NUMDEG; ++i) {
         if (i == branchindex)          /* Skip previously searched direction */
