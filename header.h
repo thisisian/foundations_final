@@ -58,7 +58,6 @@ typedef struct stack_element {
 node *pop(stack_element **stackaddr);
 void push(node * pnode, stack_element **stackaddr);
 node *peek(stack_element *stack);
-void printstack(stack_element * stack, char end[], float cost);
 
 /* Map-generation functions - mapgen.c */
 node *createnode();
@@ -75,3 +74,4 @@ void getstr(char s[]);
 void formatinput(char s[], int maxlen);
 int getentry(FILE *mfile, char s[]);
 void printmap(node *root);
+void printPath(stack_element * stack, char end[], float cost);

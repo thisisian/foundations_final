@@ -22,11 +22,11 @@
 node *createnode()
 {
     int i;
-    node *new = malloc(sizeof(node));
-    new->name[0] = '\0';
+    node *newNode = malloc(sizeof(node));
+    newNode->name[0] = '\0';
     for (i = 0; i < NUMDEG; ++i)
-	new->branch[i] = NULL;
-    return new;
+	newNode->branch[i] = NULL;
+    return newNode;
 }
 
 /*
@@ -37,45 +37,44 @@ node *createnode()
 node *loadmap(char file[])
 {
     int i;
-    char s[MAXSTR];	    /* Holds string for manipulation */
-    node *cur = NULL;
-    node *new = NULL;
-    node *root = NULL;
-    int forward;            /* Holds node index pointing forward */
+    node *curNode = NULL;
+    node *newNode = NULL;
+    node *rootNode = NULL;
+    int forward;        	    /* Holds node index pointing forward */
     float cost = 0.0;
     FILE *mfile = fopen(file, "r");
 
     /* Creating root node */
-    cur = root = createnode();
-    strcpy(root->name, "Junction");
+    curNode = rootNode = createnode();
+    strcpy(rootNode->name, "Junction");
 
     /* Loading in branches */
     for (i = 0; i < NUMDEG; ++i) {
-        cur = root;
+        curNode = rootNode;
         forward = i;
-	while ((new = loadcity(mfile)) != NULL) {
-            cur->branch[forward] = new;
-            new->branch[BACK] = cur;
-            cur = new;
-            cur->branch[FWD] = NULL;
+	while ((newNode = loadcity(mfile)) != NULL) {
+            curNode->branch[forward] = newNode;
+            newNode->branch[BACK] = curNode;
+            curNode = newNode;
+            curNode->branch[FWD] = NULL;
             forward = FWD;
         }
     }
     fclose(mfile);
-    return root;
+    return rootNode;
 }
 
 /* Loads node name and cost. Returns NULL if END occurs */
 node *loadcity(FILE *mfile)
 {
-    char s[MAXSTR];
+    char utilString[MAXSTR]; // string to hold city + cost info
     node *citynode = NULL;
 
-    getentry(mfile, s);
-    if (!strcmp(s, "END"))
+    getentry(mfile, utilString);
+    if (!strcmp(utilString, "END"))
         return NULL;
     citynode = createnode();
-    citynode->cost = atof(s);
-    getentry(mfile, s);
-    strcpy(citynode->name, s);
+    citynode->cost = atof(utilString);
+    getentry(mfile, utilString);
+    strcpy(citynode->name, utilString);
 }

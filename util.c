@@ -75,24 +75,44 @@ void formatinput(char s[], int maxlen)
     s[++writeindex] = '\0';
 }
 
-void printmap(node *root)
+/* Pop all elements from stack and print with numbered lines. */
+/* Total cost of trip is calculated and printed */
+
+void printPath(stack_element * stack, char end[], float cost)
+{
+    int i;
+    float dollar_cost;
+    for (i = 1; strcmp(stack->payload->name, end) != 0; ++i) {
+        node a = *pop(&stack);
+        printf("%2d. %s\n", i, a.name);
+    }
+    node cur = *pop(&stack);
+    printf("%2d. %s\nTotal Miles: %.1f\n\n", i, cur.name, cost);
+    dollar_cost = (cost * 2.88) / 20;
+    printf
+        ("Assuming gas costs $2.88 per gallon, and 20 miles/gallon"
+         " your trip will cost $%.2f.\n", dollar_cost);
+}
+
+
+void printmap(node *rootNode)
 {
     int i;
     char s[MAXSTR];
-    node *cur;
+    node *curNode;
 
     printf("--- Map ---\n");
     for (i = 0; i < NUMDEG; ++i) {
-	if ((cur = root->branch[i]) == NULL)	/* branch points to NULL */
+	if ((curNode = rootNode->branch[i]) == NULL)	/* branch points to NULL */
 	    continue;
 	getbranchname(i, s);
-	printf("%s:", s);
-	while (cur->branch[FWD] != NULL) {
-	    printf("%s->", cur->name);
-	    cur = cur->branch[FWD];
+	printf("%s: ", s);
+	while (curNode->branch[FWD] != NULL) {
+	    printf("%s->", curNode->name);
+	    curNode = curNode->branch[FWD];
 	}
-	printf("%s\n", cur->name);
-	cur = root;
+	printf("%s\n", curNode->name);
+	curNode = rootNode;
     }
     printf("-----------\n\n");
 }
