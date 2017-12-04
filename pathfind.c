@@ -49,79 +49,81 @@ stack_element *getpath(char start[], char end[], node *rootNode, float *cost)
 	return pathstack;	/* Return stack */
     }
 
-    if (!strcmp(end, root->name))
+    if (strcmp(end, rootNode->name)) {
     /* If the root is the end node, the following do not have to be done: */
-	    {
-	    /* Moving towards end of branch */
-	    curnode = endnode;
-	    for (;;) {
-		push(curnode, &pathstack);
-		miles_sum += curnode->cost;
-		if (!strcmp(start, curnode->name)) {     /* Found start node */
-		    *cost = miles_sum - endnode->cost;
-		    return pathstack;	/* Return stack */
-		}
-		if (curnode->branch[FWD] == NULL) 
-		    break;
-		else 
-		    curnode = curnode->branch[FWD];
-	    }
+            /* Moving towards end of branch */
+            curnode = endnode;
+            for (;;) {
+                push(curnode, &pathstack);
+                miles_sum += curnode->cost;
+                if (!strcmp(start, curnode->name)) {     /* Found start node */
+                    *cost = miles_sum - endnode->cost;
+                    return pathstack;   /* Return stack */
+                }
+                if (curnode->branch[FWD] == NULL) 
+                    break;
+                else 
+                    curnode = curnode->branch[FWD];
+            }
 
-	    /* Clear stack and sum; return to end node */
-	    while (pop(&pathstack) != NULL)
-		;
-	    miles_sum = 0.0;
-	    curnode = endnode;
+            /* Clear stack and sum; return to end node */
+            while (pop(&pathstack) != NULL)
+                ;
+            miles_sum = 0.0;
+            curnode = endnode;
 
-	    /* Move towards root */
-	    for (;;) {
-		push(curnode, &pathstack);
-		miles_sum += curnode->cost;
-		if (!strcmp(start, curnode->name)) {
-		    *cost = miles_sum - curnode->cost;
-		    return pathstack; 		/* Return stack */
-		}
-		if (curnode->branch[BACK] == rootNode)
-		    break;
-		else
-		    curnode = curnode->branch[BACK];
-	    }
-  
-    if (!strcmp(start, root->name)) {
-	    push(root, &pathstack);
-	    return pathstack;
+            /* Move towards root */
+            for (;;) {
+                push(curnode, &pathstack);
+                miles_sum += curnode->cost;
+                if (!strcmp(start, curnode->name)) {
+                    *cost = miles_sum - curnode->cost;
+                    return pathstack;           /* Return stack */
+                }
+                if (curnode->branch[BACK] == rootNode)
+                    break;
+                else
+                    curnode = curnode->branch[BACK];
+            }
+                    
+            /* Getting a n node */
+            exitbranchname = createnode();
+            getbranchname(branchindex, utilString);
+            strcpy(exitbranchname->name, utilString);
+            push(exitbranchname, &pathstack);
+
+           /* Check if start is junction */
+            if (strcmp(start, rootNode->name)==0) {
+                    push(rootNode, &pathstack);
+                    return pathstack;
+            }
     }
-		    
-    /* Getting a n node */
-    exitbranchname = createnode();
-    getbranchname(branchindex, utilString);
-    strcpy(exitbranchname->name, utilString);
-    push(exitbranchname, &pathstack);
-    }
-	
+
+
     /* Do exhaustive search from root */
     float const end_to_junction = miles_sum; /* Distance from endnode to root */
+    push(rootNode, &pathstack);
     for (i = 0; i < NUMDEG; ++i) {
-	if (i == branchindex)	      /* Skip previously searched direction */
-	    continue;
-	if ((curnode = rootNode->branch[i]) == NULL) /* direction points to NULL */
-	    continue;
-	for (j = 0; ; ++j) {
-	    push(curnode, &pathstack);
-	    miles_sum += curnode->cost;
-	    if (!strcmp(start, curnode->name)) {
-		*cost = miles_sum;
-		return pathstack; 	/* Return stack */
-	    }
+        if (i == branchindex)         /* Skip previously searched direction */
+            continue;
+        if ((curnode = rootNode->branch[i]) == NULL) /* direction points to NULL */
+            continue;
+        for (j = 0; ; ++j) {
+            push(curnode, &pathstack);
+            miles_sum += curnode->cost;
+            if (!strcmp(start, curnode->name)) {
+                *cost = miles_sum;
+                return pathstack;       /* Return stack */
+            }
             if (curnode->branch[FWD] == NULL)
                 break;
             else
                 curnode = curnode->branch[FWD];
-	}
+        }
         /* Start node wasn't on this branch, reset stack and sum */
-	miles_sum = end_to_junction;
-	for (j; j >= 0; --j)
-	    pop(&pathstack);
+        miles_sum = end_to_junction;
+        for (j; j >= 0; --j)
+            pop(&pathstack);
     }
     printf("Start node not found!\n");
     return NULL;
