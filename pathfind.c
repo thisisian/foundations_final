@@ -1,11 +1,16 @@
 /**************************************************************************
+ *
  * New Beginnings Foundations Final
  *
  * Authors:
- * Gavin Megson
+ * Logan Ballard
  * Lynnae Griffiths
+ * Anna Hansen
  * Matt Krepp
+ * Gavin Megson
+ * Boris Popadiuk
  * Ian Winter
+ * Jesse Zhu
  *
  * pathfind.c - Functions relating to path finding.
  *
@@ -14,12 +19,12 @@
 #include "header.h"
 
 /*
- * Get path - Find path between two nodes. Returns a stack of city names
+ * Get path - Find path between two nodes. Returns a stack of city namesd
  * along path or NULL if there's an error.
  *
- * A special node 'branchname' is loaded into the stack in the case
+ * A special node 'exitbranchname' is loaded into the stack in the case
  * where an exhaustive search is needed. This node holds the name of the
- * branch in which the end node exists and is used for displaying 
+ * branch in which the end node exists and is used for displaying
  * the direction chosen at the root.
  */
 stack_element *getpath(char start[], char end[], node *rootNode, float *cost)
@@ -42,6 +47,7 @@ stack_element *getpath(char start[], char end[], node *rootNode, float *cost)
     endnode = findnode(end, rootNode, &branchindex);
     if (endnode == NULL)
 	return NULL;
+
 
     /* Start and end are the same */
     if (!strcmp(start, endnode->name)) {
@@ -115,15 +121,18 @@ stack_element *getpath(char start[], char end[], node *rootNode, float *cost)
                 *cost = miles_sum;
                 return pathstack;       /* Return stack */
             }
+
             if (curnode->branch[FWD] == NULL)
                 break;
             else
                 curnode = curnode->branch[FWD];
+
         }
         /* Start node wasn't on this branch, reset stack and sum */
         miles_sum = end_to_junction;
         for (j; j >= 0; --j)
             pop(&pathstack);
+
     }
     printf("Start node not found!\n");
     return NULL;
@@ -131,34 +140,29 @@ stack_element *getpath(char start[], char end[], node *rootNode, float *cost)
 
 /*
  * Find node - Brute force search for node pointer with name s[]. If found,
- * branch index is stored in dir and a pointer to the node is returned.
- * Otherwise, integer dir is invalid and function returns NULL.
+ * branch index is stored in branchindex and a pointer to the node is
+ * returned. Otherwise, branchindex is invalid and function returns NULL.
  */
-node *findnode(char s[], node *root, int *dir)
+node *findnode(char s[], node * rootNode, int *branch)
 {
     int i, j;
-    node *cur = NULL;
+    node *curNode = NULL;
 
     for (i = 0; i < NUMDEG; ++i) {
-        if ((cur = root->dir[i]) == NULL)    /* direction points to NULL */
-            continue;
-        *dir = i;
-        while (cur->dir[FWD] != NULL) {
-            if (!strcmp(cur->name, s)) {
-       	 #if DEBUG
-                printf("Found %s\n", cur->name);
-       	 #endif
-                return cur;
-            }
-            cur = cur->dir[FWD];
-        }
-        if (!strcmp(cur->name, s)) {
-            #if DEBUG
-            printf("Found %s\n", cur->name);
-            #endif
-            return cur;
-        }
-        cur = root;
+	if ((curNode = rootNode->branch[i]) == NULL)	/* direction points to NULL */
+	    continue;
+	if (branch != NULL)
+	    *branch = i;
+	while (curNode->branch[FWD] != NULL) {
+	    if (!strcmp(curNode->name, s)) {
+		return curNode;
+	    }
+	    curNode = curNode->branch[FWD];
+	}
+	if (!strcmp(curNode->name, s)) {
+	    return curNode;
+	}
+	curNode = rootNode;
     }
     return NULL;
 }
@@ -166,15 +170,16 @@ node *findnode(char s[], node *root, int *dir)
 /*
  * Get branch name - Input branch index and save name into s.
  */
-void getbranchname(int branchindex, char s[]) {
-  if (branchindex == 0) 
-      strcpy(s, "I-5 North");
-  else if (branchindex == 1)
-      strcpy(s, "Highway 26 East");
-  else if (branchindex == 2)
-      strcpy(s, "I-5 South");
-  else if (branchindex == 3)
-      strcpy(s, "Highway 26 West");
-  else 
-      printf("getbranchname: invalid direction");
+void getbranchname(int branchindex, char branchName[])
+{
+    if (branchindex == 0)
+	strcpy(branchName, "I5 North");
+    else if (branchindex == 1)
+	strcpy(branchName, "Highway 26 East");
+    else if (branchindex == 2)
+	strcpy(branchName, "I5 South");
+    else if (branchindex == 3)
+	strcpy(branchName, "Highway 26 West");
+    else
+        printf("Invalid branch index");
 }
